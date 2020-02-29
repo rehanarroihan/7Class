@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:sevenclass/screens/intro_screen.dart';
+import 'package:flutter_stetho/flutter_stetho.dart';
+import 'package:sevenclass/main_layout.dart';
 
-void main() => runApp(MyApp());
+import 'app.dart';
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: '7Class Development',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: IntroScreen(),
-    );
-  }
+Future<Null> main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  App.configure(
+      flavor: Flavor.DEVELOPMENT,
+      apiBaseURL: 'http://10.208.110.253:8087/v1/',
+      appTitle: '7Class Development'
+  );
+
+  await App().init();
+  Stetho.initialize();
+
+  runApp(MainLayout());
 }
