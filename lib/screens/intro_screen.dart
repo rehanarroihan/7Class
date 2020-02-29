@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sevenclass/helpers/app_color.dart';
 import 'package:sevenclass/helpers/constant_helper.dart';
 import 'package:sevenclass/models/slider.dart';
+import 'package:sevenclass/screens/welcome_screen.dart';
 import 'package:sevenclass/widgets/base/descriptive.dart';
 
 class IntroScreen extends StatefulWidget {
@@ -114,11 +115,11 @@ class _IntroScreenState extends State<IntroScreen> {
                             _currentPage = toPage;
                           });
                         } else if (_currentPage == 2) {
-                          /*Navigator.push(context,
+                          Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
                               return WelcomeScreen();
                             }
-                          ));*/
+                          ));
                         }
                       },
                     ),
