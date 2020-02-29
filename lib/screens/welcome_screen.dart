@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sevenclass/helpers/app_color.dart';
 import 'package:sevenclass/helpers/constant_helper.dart';
+import 'package:sevenclass/screens/auth_screen.dart';
 import 'package:sevenclass/widgets/google_style_login_button.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -134,9 +135,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       SizedBox(height: 12),
                       GestureDetector(
                         onTap: () {
-                          /*Navigator.push(context,
+                          Navigator.push(context,
                             MaterialPageRoute(builder: (context) => AuthScreen())
-                          );*/
+                          );
                         },
                         child: Text(
                           'Create email account >>',

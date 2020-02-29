@@ -9,49 +9,59 @@ import './bloc.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   UserService _userService = UserService();
 
+  bool registerPasswordObscure = true;
   bool isRegisterLoading = false;
+  bool isEmailAlreadyRegistered = false;
+  String previousRegisteredEmail = "";
 
   @override
   AuthState get initialState => InitialAuthState();
 
   @override
   Stream<AuthState> mapEventToState(AuthEvent event) async* {
-    if (event is CheckEmailStatusEvent) {
-      yield* _checkRegisteredEmail(event);
+    if (event is RegisterPasswordObscureEvent) {
+      yield* _registerPasswordObscure();
     } else if (event is DoRegisterEvent) {
       yield* _doRegister(event);
+    } else if (event is ToggleEmailRegisteredEvent) {
+      yield* _toggleEmailRegistered();
     }
   }
 
-  // INFO : Check email
-  Stream<AuthState> _checkRegisteredEmail(CheckEmailStatusEvent event) async*{
+  Stream<AuthState> _registerPasswordObscure() async* {
     yield InitialAuthState();
-
-    Map<String, dynamic> payload = {
-      "email": event.email
-    };
-    _userService.isEmailRegistered(payload);
-
-    yield EmailCheckResultState();
+    this.registerPasswordObscure = !registerPasswordObscure;
+    yield RegisterPasswordObscureState();
   }
 
   // INFO : Send register request to server
-  Stream<AuthState> _doRegister(DoRegisterEvent event) async*{
+  Stream<AuthState> _doRegister(DoRegisterEvent event) async* {
     this.isRegisterLoading = true;
     yield InitialAuthState();
 
     Map<String, dynamic> payload = {
-      "email": event.email,
-      "full_name": event.fullName,
-      "password": event.password,
+      "email": event.email.trim(),
+      "full_name": event.fullName.trim(),
+      "password": event.password.trim(),
     };
     UserModel result = await _userService.doRegister(payload);
+
     this.isRegisterLoading = false;
     if (!result.success) {
-      yield RegisterFailedState(message: result.message);
+      if (result.message == "Email already registered") {
+        this.previousRegisteredEmail = event.email;
+        this.isEmailAlreadyRegistered = true;
+        yield EmailRegisteredState();
+      } else {
+        yield RegisterFailedState(message: result.message);
+      }
     } else {
       yield RegisterResultState();
     }
+  }
 
+  Stream<AuthState> _toggleEmailRegistered() async* {
+    yield InitialAuthState();
+    this.isEmailAlreadyRegistered = !isEmailAlreadyRegistered;
   }
 }

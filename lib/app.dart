@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sevenclass/widgets/base/toast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'bloc/bloc_delegate.dart';
@@ -62,5 +63,18 @@ class App {
     dio.options.headers = {
       'Authorization': sharedPreferences.get(ConstantHelper.AUTH_TOKEN_PREF)
     };
+    setDioInterceptor();
+  }
+
+  void setDioInterceptor() {
+    dio.interceptors.add(InterceptorsWrapper(onError: (DioError e) async {
+      Map<String, dynamic> data = e.response.data;
+      if (e.response.statusCode != null) {
+        if (e.response.statusCode == 400) {
+          showToast(data['message']);
+        }
+      }
+      return e;
+    }));
   }
 }

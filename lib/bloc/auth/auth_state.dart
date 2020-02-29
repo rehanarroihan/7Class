@@ -9,24 +9,20 @@ abstract class AuthState extends Equatable {
 
 class InitialAuthState extends AuthState {}
 
-class DoRegisterState extends AuthState {
-  @override
-  String toString() => 'DoRegisterState';
-}
+class DoRegisterState extends AuthState {}
 
-class RegisterResultState extends AuthState {
+class RegisterResultState extends AuthState {}
 
-
-  @override
-  String toString() => 'RegisterResultState';
-}
-
-class EmailCheckState extends AuthState {}
+class RegisterPasswordObscureState extends AuthState {}
 
 class EmailCheckResultState extends AuthState {}
+
+class EmailRegisteredState extends AuthState {}
 
 class RegisterFailedState extends AuthState {
   final String message;
 
   RegisterFailedState({this.message});
 }
+
+class ToggleEmailRegisteredState extends AuthState {}

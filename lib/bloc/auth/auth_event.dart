@@ -7,13 +7,20 @@ abstract class AuthEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class CheckEmailStatusEvent extends AuthEvent {
+class EmailRegisteredEvent extends AuthEvent {
   final String email;
 
-  CheckEmailStatusEvent(this.email);
+  EmailRegisteredEvent({
+    this.email
+  });
 
   @override
-  String toString() => 'CheckEmailStatusEvent';
+  String toString() => 'EmailRegisteredEvent';
+}
+
+class RegisterPasswordObscureEvent extends AuthEvent {
+  @override
+  String toString() => 'RegisterPasswordObscureEvent';
 }
 
 class DoRegisterEvent extends AuthEvent {
@@ -29,4 +36,9 @@ class DoRegisterEvent extends AuthEvent {
 
   @override
   String toString() => 'DoRegisterEvent';
+}
+
+class ToggleEmailRegisteredEvent extends AuthEvent {
+  @override
+  String toString() => 'ToggleEmailRegisteredEvent';
 }
