@@ -12,13 +12,33 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
 
   @override
   Stream<SplashState> mapEventToState(SplashEvent event) async* {
-    if (event is LoadAuthData) {
-      yield AuthDataLoading();
+    if (event is CheckUserConditionEvent) {
+      yield* _checkUserCondition();
+    } else if (event is ClearFirstTimeConditionEvent) {
+      yield* _clearFirstTimeCondition();
+    }
+  }
 
-      String isLoggedIn = App().sharedPreferences.get(ConstantHelper.IS_LOGGED_IN_PREF);
+  Stream<SplashState> _checkUserCondition() async* {
+    yield InitialSplashState();
 
+    bool isAppFirstTimeLaunch = App().sharedPreferences
+        .getBool(ConstantHelper.IS_FIRST_TIME_LAUNCH_PREF) ?? true;
+    bool isLoggedIn = App().sharedPreferences
+        .getBool(ConstantHelper.IS_LOGGED_IN_PREF) ?? false;
+
+    if (isAppFirstTimeLaunch) {
+      yield LaunchedFirstTime();
+    } else if (isLoggedIn) {
+      yield Authenticated();
+    } else if (!isLoggedIn) {
       yield NotAuthenticated();
     }
   }
 
+  Stream<SplashState> _clearFirstTimeCondition() async* {
+    yield InitialSplashState();
+    App().sharedPreferences.setBool(ConstantHelper.IS_FIRST_TIME_LAUNCH_PREF, false);
+    yield ClearFirstTimeConditionState();
+  }
 }

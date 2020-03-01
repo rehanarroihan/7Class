@@ -44,9 +44,9 @@ class App {
     BlocSupervisor.delegate = SimpleBlocDelegate();
 
     Crashlytics.instance.enableInDevMode = true;
-    //Crashlytics.instance.setUserEmail('rehan@admin.com');
-    //Crashlytics.instance.setUserName('rehanarroihan');
-    //Crashlytics.instance.setUserIdentifier('delimiter');
+    Crashlytics.instance.setUserEmail('Unauthorized');
+    Crashlytics.instance.setUserName('Unauthorized');
+    Crashlytics.instance.setUserIdentifier('Unauthorized');
 
     FlutterError.onError = (FlutterErrorDetails details) {
       Crashlytics.instance.recordFlutterError(details);

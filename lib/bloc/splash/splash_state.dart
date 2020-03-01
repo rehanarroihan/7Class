@@ -7,10 +7,10 @@ class InitialSplashState extends SplashState {
   List<Object> get props => [];
 }
 
-class SplashStart extends SplashState {}
-
-class AuthDataLoading extends SplashState {}
+class LaunchedFirstTime extends SplashState {}
 
 class Authenticated extends SplashState {}
 
 class NotAuthenticated extends SplashState {}
+
+class ClearFirstTimeConditionState extends SplashState {}

@@ -2,9 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sevenclass/bloc/auth/auth_bloc.dart';
-import 'package:sevenclass/bloc/auth/auth_event.dart';
-import 'package:sevenclass/bloc/auth/auth_state.dart';
+import 'package:sevenclass/bloc/auth/bloc.dart';
 import 'package:sevenclass/helpers/app_color.dart';
 import 'package:sevenclass/helpers/constant_helper.dart';
 import 'package:sevenclass/widgets/base/toast.dart';

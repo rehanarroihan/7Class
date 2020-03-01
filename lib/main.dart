@@ -9,9 +9,9 @@ Future<Null> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   App.configure(
-      flavor: Flavor.DEVELOPMENT,
-      apiBaseURL: 'http://10.209.17.178:8087/v1/',
-      appTitle: '7Class Development'
+    flavor: Flavor.DEVELOPMENT,
+    apiBaseURL: 'http://10.209.17.178:8087/v1/',
+    appTitle: '7Class Development'
   );
 
   await App().init();

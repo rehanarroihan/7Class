@@ -30,6 +30,7 @@ class _IntroScreenState extends State<IntroScreen> {
     setState(() {
       _currentPage = index;
     });
+    print(_currentPage.toString());
   }
 
   @override
@@ -63,13 +64,13 @@ class _IntroScreenState extends State<IntroScreen> {
                     ),
                     SizedBox(height: 10),
                     Descriptive(
-                      title: sliderArrayList[_currentPage].sliderHeading,
-                      description: sliderArrayList[_currentPage].sliderSubHeading
+                        title: sliderArrayList[_currentPage].sliderHeading,
+                        description: sliderArrayList[_currentPage].sliderSubHeading
                     ),
                     SizedBox(height: 40),
                     Container(
                       padding: EdgeInsets.symmetric(
-                        horizontal: 92
+                          horizontal: 92
                       ),
                       width: double.infinity,
                       child: RaisedButton(
@@ -77,15 +78,15 @@ class _IntroScreenState extends State<IntroScreen> {
                         color: AppColors.bluePrimary,
                         padding: EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18)
+                            borderRadius: BorderRadius.circular(18)
                         ),
                         child: Text(
                           _currentPage != 2 ? 'Next' : 'Get Started',
                           style: TextStyle(
-                            fontSize: 18,
-                            fontFamily: ConstantHelper.PRIMARY_FONT,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white
+                              fontSize: 18,
+                              fontFamily: ConstantHelper.PRIMARY_FONT,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white
                           ),
                         ),
                       ),
@@ -116,9 +117,7 @@ class _IntroScreenState extends State<IntroScreen> {
                           });
                         } else if (_currentPage == 2) {
                           Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                              return WelcomeScreen();
-                            }
+                            MaterialPageRoute(builder: (context) => WelcomeScreen()
                           ));
                         }
                       },
@@ -138,9 +137,9 @@ class _IntroScreenState extends State<IntroScreen> {
       height: MediaQuery.of(context).size.width * 0.80,
       width: MediaQuery.of(context).size.height * 0.60,
       decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(sliderArrayList[_currentPage].sliderImageUrl)
-        )
+          image: DecorationImage(
+              image: AssetImage(sliderArrayList[_currentPage].sliderImageUrl)
+          )
       ),
     );
   }
