@@ -5,6 +5,7 @@ import '../../app.dart';
 import 'bloc.dart';
 
 class SplashBloc extends Bloc<SplashEvent, SplashState> {
+  int introCurrentPage = 0;
 
   @override
   // TODO: implement initialState
@@ -16,6 +17,8 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
       yield* _checkUserCondition();
     } else if (event is ClearFirstTimeConditionEvent) {
       yield* _clearFirstTimeCondition();
+    } else if (event is SetIntroCurrentPageEvent) {
+      yield* _changeIntroCurrentPage(event);
     }
   }
 
@@ -40,5 +43,12 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     yield InitialSplashState();
     App().sharedPreferences.setBool(ConstantHelper.IS_FIRST_TIME_LAUNCH_PREF, false);
     yield ClearFirstTimeConditionState();
+  }
+
+  Stream<SplashState> _changeIntroCurrentPage(SetIntroCurrentPageEvent event) async* {
+    yield InitialSplashState();
+    this.introCurrentPage = event.page;
+    print(event.page);
+    yield SetIntroCurrentPageState(event.page);
   }
 }

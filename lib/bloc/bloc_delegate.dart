@@ -16,7 +16,7 @@ class SimpleBlocDelegate extends BlocDelegate {
 
   @override
   void onTransition(Bloc bloc, Transition transition) {
-    print(bloc.toString() + " " + transition.toString());
+    //print(bloc.toString() + " " + transition.toString());
     super.onTransition(bloc, transition);
   }
 }

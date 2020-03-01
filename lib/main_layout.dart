@@ -12,8 +12,8 @@ class MainLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<AuthBloc>(create: (BuildContext context) => AuthBloc()),
-        BlocProvider<SplashBloc>(create: (BuildContext context) => SplashBloc())
+        BlocProvider<SplashBloc>(create: (BuildContext context) => SplashBloc()),
+        BlocProvider<AuthBloc>(create: (BuildContext context) => AuthBloc())
       ],
       child: MaterialApp(
         title: App().appTitle,

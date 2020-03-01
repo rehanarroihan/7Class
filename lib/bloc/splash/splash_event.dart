@@ -9,3 +9,12 @@ class ClearFirstTimeConditionEvent extends SplashEvent {
   @override
   String toString() => 'ClearFirstTimeConditionEvent';
 }
+
+class SetIntroCurrentPageEvent extends SplashEvent {
+  int page;
+
+  SetIntroCurrentPageEvent(this.page);
+
+  @override
+  String toString() => 'SetIntroCurrentPageEvent';
+}

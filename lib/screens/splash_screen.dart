@@ -9,10 +9,10 @@ import 'package:sevenclass/widgets/base/app_text.dart';
 import 'intro_screen.dart';
 
 class SplashScreen extends StatelessWidget {
-  SplashBloc _splashBloc = SplashBloc();
 
   @override
   Widget build(BuildContext context) {
+    SplashBloc _splashBloc = BlocProvider.of<SplashBloc>(context);
     double _height = MediaQuery.of(context).size.height;
     _splashBloc.add(CheckUserConditionEvent());
 

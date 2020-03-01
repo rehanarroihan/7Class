@@ -14,3 +14,9 @@ class Authenticated extends SplashState {}
 class NotAuthenticated extends SplashState {}
 
 class ClearFirstTimeConditionState extends SplashState {}
+
+class SetIntroCurrentPageState extends SplashState {
+  int page;
+
+  SetIntroCurrentPageState(this.page);
+}
