@@ -6,9 +6,11 @@ import 'package:sevenclass/bloc/auth/bloc.dart';
 import 'package:sevenclass/helpers/app_color.dart';
 import 'package:sevenclass/helpers/constant_helper.dart';
 import 'package:sevenclass/widgets/base/toast.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-class AuthScreen extends StatelessWidget {
+class RegisterModule extends StatelessWidget {
+  Function onLoginClick;
+  RegisterModule({this.onLoginClick});
+
   AuthBloc _authBloc  = AuthBloc();
 
   TextEditingController _nameTEC = new TextEditingController();
@@ -32,21 +34,7 @@ class AuthScreen extends StatelessWidget {
       },
       child: BlocBuilder(
         bloc: _authBloc,
-        builder: (context, state){
-         return Scaffold(
-          appBar: AppBar(
-            title: Text('Register'),
-          ),
-          body: SlidingUpPanel(
-            minHeight: _screenHeight * 0.5,
-            panel: _registerWidget(),
-            body: Container(
-              height: MediaQuery.of(context).size.height,
-              color: Colors.transparent,
-            ),
-          ),
-        );
-      }
+        builder: (context, state) => _registerWidget()
       ),
     );
   }
@@ -54,7 +42,6 @@ class AuthScreen extends StatelessWidget {
   Widget _registerWidget() {
     return Container(
       color: Colors.white,
-      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -75,7 +62,7 @@ class AuthScreen extends StatelessWidget {
               fontSize: 24,
             ),
           ),
-          SizedBox(height: 32),
+          SizedBox(height: 24),
           Form(
             key: _registerFormState,
             child: Column(children: <Widget>[
@@ -99,8 +86,8 @@ class AuthScreen extends StatelessWidget {
                 autovalidate: true,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                  labelText: "Email",
-                  suffix: _authBloc.isEmailAlreadyRegistered ?
+                    labelText: "Email",
+                    suffix: _authBloc.isEmailAlreadyRegistered ?
                     Icon(Icons.close, color: Colors.red) : null
                 ),
                 onChanged: (value) {
@@ -149,16 +136,42 @@ class AuthScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10)
                   ),
                   child: Text(
-                    _authBloc.isRegisterLoading ? 'Please wait...' : 'Register',
+                    _authBloc.isRegisterLoading ? 'Please wait...' : 'Daftar',
                     style: TextStyle(
-                        fontSize: 18,
-                        fontFamily: ConstantHelper.PRIMARY_FONT,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white
+                      fontSize: 18,
+                      fontFamily: ConstantHelper.PRIMARY_FONT,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white
                     ),
                   ),
                 ),
               ),
+              Padding(
+                padding: EdgeInsets.all(18),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'Email anda sudah terdaftar ?',
+                      style: TextStyle(
+                        fontFamily: ConstantHelper.SECONDARY_FONT,
+                        fontSize: 15
+                      ),
+                    ),
+                    InkWell(
+                      onTap: onLoginClick,
+                      child: Text(
+                        ' Masuk disini',
+                        style: TextStyle(
+                          fontFamily: ConstantHelper.SECONDARY_FONT,
+                          color: AppColors.primaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15
+                        ),
+                      ),
+                    )
+                  ],
+                ))
             ]),
           ),
         ],
@@ -223,9 +236,9 @@ class AuthScreen extends StatelessWidget {
     String fullName = _nameTEC.text;
 
     _authBloc.add(DoRegisterEvent(
-      email: email,
-      password: password,
-      fullName: fullName
+        email: email,
+        password: password,
+        fullName: fullName
     ));
   }
 }

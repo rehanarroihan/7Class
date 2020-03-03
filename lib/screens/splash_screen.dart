@@ -20,7 +20,6 @@ class SplashScreen extends StatelessWidget {
       bloc: _splashBloc,
       listener: (BuildContext context, SplashState state) {
         if (state is LaunchedFirstTime) {
-          print('im call out the intro screen');
           Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => IntroScreen()
           ));

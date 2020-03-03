@@ -20,6 +20,10 @@ class IntroScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is SetIntroCurrentPageState) {
           _pageController.jumpToPage(state.page);
+        } else if (state is ClearFirstTimeConditionState) {
+          Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => WelcomeScreen()
+          ));
         }
       },
       child: BlocBuilder(
@@ -40,9 +44,9 @@ class IntroScreen extends StatelessWidget {
                             height: MediaQuery.of(context).size.width * 0.80,
                             width: MediaQuery.of(context).size.height * 0.60,
                             decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: AssetImage(sliderArrayList[_splashBloc.introCurrentPage].sliderImageUrl)
-                                )
+                              image: DecorationImage(
+                                image: AssetImage(sliderArrayList[_splashBloc.introCurrentPage].sliderImageUrl)
+                              )
                             ),
                           ),
                           SizedBox(height: 40),
@@ -73,7 +77,7 @@ class IntroScreen extends StatelessWidget {
                             width: double.infinity,
                             child: RaisedButton(
                               onPressed: () {},
-                              color: AppColors.bluePrimary,
+                              color: AppColors.primaryColor,
                               padding: EdgeInsets.symmetric(vertical: 14),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(18)
@@ -107,9 +111,7 @@ class IntroScreen extends StatelessWidget {
                                 toPage = 2;
                                 _splashBloc.add(SetIntroCurrentPageEvent(toPage));
                               } else if (_splashBloc.introCurrentPage == 2) {
-                                Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => WelcomeScreen()
-                                ));
+                                _splashBloc.add(ClearFirstTimeConditionEvent());
                               }
                             },
                           ),
@@ -139,7 +141,7 @@ class IntroItemDot extends StatelessWidget {
       height: 11,
       width: 11.5,
       decoration: BoxDecoration(
-        color: isActive ? AppColors.bluePrimary : AppColors.grey,
+        color: isActive ? AppColors.primaryColor : AppColors.grey,
         borderRadius: BorderRadius.all(Radius.circular(4)),
       ),
     );
