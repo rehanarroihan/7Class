@@ -26,3 +26,5 @@ class RegisterFailedState extends AuthState {
 }
 
 class ToggleEmailRegisteredState extends AuthState {}
+
+class LogoutState extends AuthState {}

@@ -42,3 +42,18 @@ class ToggleEmailRegisteredEvent extends AuthEvent {
   @override
   String toString() => 'ToggleEmailRegisteredEvent';
 }
+
+class DoLoginEvent extends AuthEvent {
+  final String email;
+  final String password;
+
+  DoLoginEvent({
+    this.email,
+    this.password
+  });
+
+  @override
+  String toString() => 'DoLoginEvent';
+}
+
+class LogoutEvent extends AuthEvent {}

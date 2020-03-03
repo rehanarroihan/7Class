@@ -28,7 +28,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     bool isAppFirstTimeLaunch = App().sharedPreferences
         .getBool(ConstantHelper.IS_FIRST_TIME_LAUNCH_PREF) ?? true;
     bool isLoggedIn = App().sharedPreferences
-        .getBool(ConstantHelper.IS_LOGGED_IN_PREF) ?? false;
+        .getBool(ConstantHelper.IS_USER_LOGGED_IN_PREF) ?? false;
 
     if (isAppFirstTimeLaunch) {
       yield LaunchedFirstTime();

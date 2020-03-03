@@ -3,16 +3,18 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sevenclass/bloc/splash/bloc.dart';
+import 'package:sevenclass/screens/auditorium_page.dart';
 import 'package:sevenclass/screens/welcome_screen.dart';
 import 'package:sevenclass/widgets/base/app_text.dart';
 
 import 'intro_screen.dart';
 
 class SplashScreen extends StatelessWidget {
+  SplashBloc _splashBloc;
 
   @override
   Widget build(BuildContext context) {
-    SplashBloc _splashBloc = BlocProvider.of<SplashBloc>(context);
+    _splashBloc = BlocProvider.of<SplashBloc>(context);
     double _height = MediaQuery.of(context).size.height;
     _splashBloc.add(CheckUserConditionEvent());
 
@@ -24,11 +26,9 @@ class SplashScreen extends StatelessWidget {
             MaterialPageRoute(builder: (context) => IntroScreen()
           ));
         } else if (state is Authenticated) {
-          /*Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) {
-              return MainScreen();
-            }
-          ));*/
+          Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => AuditoriumPage())
+          );
         } else if (state is NotAuthenticated) {
           Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => WelcomeScreen()

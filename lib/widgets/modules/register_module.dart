@@ -11,7 +11,7 @@ class RegisterModule extends StatelessWidget {
   Function onLoginClick;
   RegisterModule({this.onLoginClick});
 
-  AuthBloc _authBloc  = AuthBloc();
+  AuthBloc _authBloc;
 
   TextEditingController _nameTEC = new TextEditingController();
   TextEditingController _emailTEC = new TextEditingController();
@@ -21,6 +21,7 @@ class RegisterModule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _authBloc = BlocProvider.of<AuthBloc>(context);
     double _screenHeight = MediaQuery.of(context).size.height;
 
     return BlocListener(
@@ -68,6 +69,7 @@ class RegisterModule extends StatelessWidget {
             child: Column(children: <Widget>[
               TextFormField(
                 controller: _nameTEC,
+                autovalidate: _authBloc.isAutoValidateOn,
                 decoration: InputDecoration(
                     labelText: "Nama Lengkap"
                 ),
@@ -77,13 +79,12 @@ class RegisterModule extends StatelessWidget {
                   }
 
                   return null;
-                },
-                autovalidate: true,
+                }
               ),
               SizedBox(height: 18),
               TextFormField(
                 controller: _emailTEC,
-                autovalidate: true,
+                autovalidate: _authBloc.isAutoValidateOn,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                     labelText: "Email",
@@ -100,6 +101,7 @@ class RegisterModule extends StatelessWidget {
               SizedBox(height: 18),
               TextFormField(
                 controller: _passwordTEC,
+                autovalidate: _authBloc.isAutoValidateOn,
                 keyboardType: TextInputType.text,
                 obscureText: _authBloc.registerPasswordObscure,
                 decoration: InputDecoration(
@@ -122,8 +124,7 @@ class RegisterModule extends StatelessWidget {
                   }
 
                   return null;
-                },
-                autovalidate: true,
+                }
               ),
               SizedBox(height: 32),
               Container(

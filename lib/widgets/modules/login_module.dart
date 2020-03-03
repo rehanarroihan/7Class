@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sevenclass/bloc/auth/bloc.dart';
 import 'package:sevenclass/helpers/app_color.dart';
 import 'package:sevenclass/helpers/constant_helper.dart';
+import 'package:sevenclass/screens/auditorium_page.dart';
+import 'package:sevenclass/widgets/base/toast.dart';
 
 class LoginModule extends StatelessWidget {
   Function onRegisterClick;
@@ -12,10 +14,9 @@ class LoginModule extends StatelessWidget {
 
   AuthBloc _authBloc  = AuthBloc();
 
+  GlobalKey<FormState> _registerFormState = GlobalKey();
   TextEditingController _emailTEC = new TextEditingController();
   TextEditingController _passwordTEC = new TextEditingController();
-
-  GlobalKey<FormState> _registerFormState = GlobalKey();
 
   _doLogin() {
     _registerFormState.currentState.save();
@@ -28,7 +29,7 @@ class LoginModule extends StatelessWidget {
     String email = _emailTEC.text;
     String password = _passwordTEC.text;
 
-    _authBloc.add(DoRegisterEvent(
+    _authBloc.add(DoLoginEvent(
         email: email,
         password: password
     ));
@@ -42,7 +43,11 @@ class LoginModule extends StatelessWidget {
       bloc: _authBloc,
       listener: (context, state) {
         if (state is RegisterResultState) {
-
+          Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => AuditoriumPage())
+          );
+        } else if (state is RegisterFailedState) {
+          showToast(state.message);
         }
       },
       child: BlocBuilder(
