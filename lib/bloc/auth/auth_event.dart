@@ -23,6 +23,21 @@ class RegisterPasswordObscureEvent extends AuthEvent {
   String toString() => 'RegisterPasswordObscureEvent';
 }
 
+class SaveWrittenAuthDataEvent extends AuthEvent {
+  final String email;
+  final String password;
+  final String fullName;
+
+  SaveWrittenAuthDataEvent({
+    this.email,
+    this.password,
+    this.fullName = ""
+  });
+
+  @override
+  String toString() => 'SaveWrittenAuthData';
+}
+
 class DoRegisterEvent extends AuthEvent {
   final String email;
   final String password;
@@ -56,4 +71,17 @@ class DoLoginEvent extends AuthEvent {
   String toString() => 'DoLoginEvent';
 }
 
-class LogoutEvent extends AuthEvent {}
+class LogoutEvent extends AuthEvent {
+  @override
+  String toString() => 'LogoutEvent';
+}
+
+class AutoValidateOnEvent extends AuthEvent {
+  @override
+  String toString() => 'AutoValidateOnEvent';
+}
+
+class LoginAutoValidateOnEvent extends AuthEvent {
+  @override
+  String toString() => 'LoginAutoValidateOnEvent ';
+}

@@ -16,8 +16,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   bool registerPasswordObscure = true;
   bool isRegisterLoading = false;
   bool isEmailAlreadyRegistered = false;
-  bool isAutoValidateOn = false;
+  bool isRegisterAutoValidateOn = false;
   String previousRegisteredEmail = "";
+
+  bool isLoginLoading = false;
+  bool isLoginAutoValidateOn = false;
+
+  Map<String, dynamic> writtenAuthData = {
+    "email": "",
+    "password": "",
+    "fullName": ""
+  };
 
   SharedPreferences _prefs = App().sharedPreferences;
 
@@ -28,13 +37,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Stream<AuthState> mapEventToState(AuthEvent event) async* {
     if (event is RegisterPasswordObscureEvent) {
       yield* _registerPasswordObscure();
+    } else if (event is SaveWrittenAuthDataEvent) {
+      yield* _saveWrittenAuthData(event);
     } else if (event is DoRegisterEvent) {
       yield* _doRegister(event);
+    } else if (event is AutoValidateOnEvent) {
+      this.isRegisterAutoValidateOn = true;
+      yield InitialAuthState();
     } else if (event is ToggleEmailRegisteredEvent) {
       yield* _toggleEmailRegistered();
+    }
+
+    if (event is LoginAutoValidateOnEvent) {
+      this.isLoginAutoValidateOn = true;
+      yield InitialAuthState();
     } else if (event is DoLoginEvent) {
       yield* _doLogin(event);
-    } else if (event is LogoutEvent) {
+    }
+
+    if (event is LogoutEvent) {
       yield* _doLogout();
     }
   }
@@ -78,7 +99,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   // INFO : Send login request to server
   Stream<AuthState> _doLogin(DoLoginEvent event) async* {
-    this.isRegisterLoading = true;
+    this.isLoginLoading = true;
     yield InitialAuthState();
 
     Map<String, dynamic> payload = {
@@ -87,7 +108,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     };
     LoginModel result = await _userService.doLogin(payload);
 
-    this.isRegisterLoading = false;
+    this.isLoginLoading = false;
     if (!result.success) {
       yield RegisterFailedState(message: result.message);
     } else {
@@ -111,5 +132,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     _prefs.setString(ConstantHelper.USER_FIRST_NAME_PREF, null);
     _prefs.setString(ConstantHelper.USER_LAST_NAME_PREF, null);
     yield LogoutState();
+  }
+
+  Stream<AuthState> _saveWrittenAuthData(SaveWrittenAuthDataEvent event) async* {
+    yield InitialAuthState();
+    this.writtenAuthData['email'] = event.email;
+    this.writtenAuthData['password'] = event.password;
+    this.writtenAuthData['fullName'] = event.fullName;
+    yield SaveWrittenAuthDataState();
   }
 }

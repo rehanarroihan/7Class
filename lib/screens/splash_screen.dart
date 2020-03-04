@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sevenclass/bloc/splash/bloc.dart';
-import 'package:sevenclass/screens/auditorium_page.dart';
+import 'package:sevenclass/screens/main_screen.dart';
 import 'package:sevenclass/screens/welcome_screen.dart';
 import 'package:sevenclass/widgets/base/app_text.dart';
 
@@ -27,7 +27,7 @@ class SplashScreen extends StatelessWidget {
           ));
         } else if (state is Authenticated) {
           Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => AuditoriumPage())
+            MaterialPageRoute(builder: (context) => MainScreen())
           );
         } else if (state is NotAuthenticated) {
           Navigator.pushReplacement(context,

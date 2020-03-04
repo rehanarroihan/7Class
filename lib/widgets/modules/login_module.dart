@@ -5,22 +5,29 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sevenclass/bloc/auth/bloc.dart';
 import 'package:sevenclass/helpers/app_color.dart';
 import 'package:sevenclass/helpers/constant_helper.dart';
-import 'package:sevenclass/screens/auditorium_page.dart';
+import 'package:sevenclass/screens/main_screen.dart';
 import 'package:sevenclass/widgets/base/toast.dart';
 
-class LoginModule extends StatelessWidget {
+class LoginModule extends StatefulWidget {
   Function onRegisterClick;
+
   LoginModule({this.onRegisterClick});
 
+  @override
+  _LoginModuleState createState() => _LoginModuleState();
+}
+
+class _LoginModuleState extends State<LoginModule> {
   AuthBloc _authBloc  = AuthBloc();
 
-  GlobalKey<FormState> _registerFormState = GlobalKey();
+  GlobalKey<FormState> _loginFormState = GlobalKey();
   TextEditingController _emailTEC = new TextEditingController();
   TextEditingController _passwordTEC = new TextEditingController();
 
   _doLogin() {
-    _registerFormState.currentState.save();
-    bool valid = _registerFormState.currentState.validate();
+    _loginFormState.currentState.save();
+    _authBloc.add(LoginAutoValidateOnEvent());
+    bool valid = _loginFormState.currentState.validate();
 
     if (!valid) {
       return false;
@@ -44,7 +51,7 @@ class LoginModule extends StatelessWidget {
       listener: (context, state) {
         if (state is RegisterResultState) {
           Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => AuditoriumPage())
+            MaterialPageRoute(builder: (context) => MainScreen())
           );
         } else if (state is RegisterFailedState) {
           showToast(state.message);
@@ -82,17 +89,18 @@ class LoginModule extends StatelessWidget {
           ),
           SizedBox(height: 24),
           Form(
-            key: _registerFormState,
+            key: _loginFormState,
             child: Column(children: <Widget>[
               SizedBox(height: 18),
               TextFormField(
                 controller: _emailTEC,
-                autovalidate: true,
+                autovalidate: _authBloc.isLoginAutoValidateOn,
+                enabled: !_authBloc.isLoginLoading,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                    labelText: "Email",
-                    suffix: _authBloc.isEmailAlreadyRegistered ?
-                    Icon(Icons.close, color: Colors.red) : null
+                  labelText: "Email",
+                  suffix: _authBloc.isEmailAlreadyRegistered ?
+                  Icon(Icons.close, color: Colors.red) : null
                 ),
                 onChanged: (value) {
                   if (_authBloc.isEmailAlreadyRegistered) {
@@ -111,6 +119,8 @@ class LoginModule extends StatelessWidget {
                 controller: _passwordTEC,
                 keyboardType: TextInputType.text,
                 obscureText: _authBloc.registerPasswordObscure,
+                autovalidate: _authBloc.isLoginAutoValidateOn,
+                enabled: !_authBloc.isLoginLoading,
                 decoration: InputDecoration(
                   labelText: "Kata Sandi",
                   suffixIcon: IconButton(
@@ -129,7 +139,6 @@ class LoginModule extends StatelessWidget {
                   }
                   return null;
                 },
-                autovalidate: true,
               ),
               SizedBox(height: 32),
               Container(
@@ -139,21 +148,21 @@ class LoginModule extends StatelessWidget {
                   color: AppColors.primaryColor,
                   padding: EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)
+                    borderRadius: BorderRadius.circular(10)
                   ),
                   child: Text(
-                    _authBloc.isRegisterLoading ? 'Please wait...' : 'Masuk',
+                    _authBloc.isLoginLoading ? 'Please wait...' : 'Masuk',
                     style: TextStyle(
-                        fontSize: 18,
-                        fontFamily: ConstantHelper.PRIMARY_FONT,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white
+                      fontSize: 18,
+                      fontFamily: ConstantHelper.PRIMARY_FONT,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white
                     ),
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(18),
+                padding: EdgeInsets.symmetric(vertical: 18),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -165,7 +174,7 @@ class LoginModule extends StatelessWidget {
                       ),
                     ),
                     InkWell(
-                      onTap: onRegisterClick,
+                      onTap: widget.onRegisterClick,
                       child: Text(
                         ' Daftar disini',
                         style: TextStyle(
@@ -177,7 +186,8 @@ class LoginModule extends StatelessWidget {
                       ),
                     )
                   ],
-                ))
+                )
+              )
             ]),
           ),
         ],

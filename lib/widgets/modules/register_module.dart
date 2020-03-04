@@ -7,17 +7,42 @@ import 'package:sevenclass/helpers/app_color.dart';
 import 'package:sevenclass/helpers/constant_helper.dart';
 import 'package:sevenclass/widgets/base/toast.dart';
 
-class RegisterModule extends StatelessWidget {
+class RegisterModule extends StatefulWidget {
   Function onLoginClick;
+
   RegisterModule({this.onLoginClick});
 
+  @override
+  _RegisterModuleState createState() => _RegisterModuleState();
+}
+
+class _RegisterModuleState extends State<RegisterModule> {
   AuthBloc _authBloc;
 
+  GlobalKey<FormState> _registerFormState = GlobalKey();
   TextEditingController _nameTEC = new TextEditingController();
   TextEditingController _emailTEC = new TextEditingController();
   TextEditingController _passwordTEC = new TextEditingController();
 
-  GlobalKey<FormState> _registerFormState = GlobalKey();
+  _doRegister() {
+    _registerFormState.currentState.save();
+    bool valid = _registerFormState.currentState.validate();
+    _authBloc.add(AutoValidateOnEvent());
+
+    if (!valid) {
+      return false;
+    }
+
+    String email = _emailTEC.text;
+    String password = _passwordTEC.text;
+    String fullName = _nameTEC.text;
+
+    _authBloc.add(DoRegisterEvent(
+        email: email,
+        password: password,
+        fullName: fullName
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,9 +94,10 @@ class RegisterModule extends StatelessWidget {
             child: Column(children: <Widget>[
               TextFormField(
                 controller: _nameTEC,
-                autovalidate: _authBloc.isAutoValidateOn,
+                autovalidate: _authBloc.isRegisterAutoValidateOn,
+                enabled: !_authBloc.isLoginLoading,
                 decoration: InputDecoration(
-                    labelText: "Nama Lengkap"
+                  labelText: "Nama Lengkap"
                 ),
                 validator: (value) {
                   if (value == "") {
@@ -84,12 +110,13 @@ class RegisterModule extends StatelessWidget {
               SizedBox(height: 18),
               TextFormField(
                 controller: _emailTEC,
-                autovalidate: _authBloc.isAutoValidateOn,
+                autovalidate: _authBloc.isRegisterAutoValidateOn,
+                enabled: !_authBloc.isLoginLoading,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                    labelText: "Email",
-                    suffix: _authBloc.isEmailAlreadyRegistered ?
-                    Icon(Icons.close, color: Colors.red) : null
+                  labelText: "Email",
+                  suffix: _authBloc.isEmailAlreadyRegistered ?
+                  Icon(Icons.close, color: Colors.red) : null
                 ),
                 onChanged: (value) {
                   if (_authBloc.isEmailAlreadyRegistered) {
@@ -101,9 +128,10 @@ class RegisterModule extends StatelessWidget {
               SizedBox(height: 18),
               TextFormField(
                 controller: _passwordTEC,
-                autovalidate: _authBloc.isAutoValidateOn,
+                autovalidate: _authBloc.isRegisterAutoValidateOn,
                 keyboardType: TextInputType.text,
                 obscureText: _authBloc.registerPasswordObscure,
+                enabled: !_authBloc.isLoginLoading,
                 decoration: InputDecoration(
                   labelText: "Kata Sandi",
                   suffixIcon: IconButton(
@@ -148,7 +176,7 @@ class RegisterModule extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(18),
+                padding: EdgeInsets.symmetric(vertical: 18),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -160,7 +188,7 @@ class RegisterModule extends StatelessWidget {
                       ),
                     ),
                     InkWell(
-                      onTap: onLoginClick,
+                      onTap: widget.onLoginClick,
                       child: Text(
                         ' Masuk disini',
                         style: TextStyle(
@@ -222,24 +250,5 @@ class RegisterModule extends StatelessWidget {
         );
       },
     );
-  }
-
-  _doRegister() {
-    _registerFormState.currentState.save();
-    bool valid = _registerFormState.currentState.validate();
-
-    if (!valid) {
-      return false;
-    }
-
-    String email = _emailTEC.text;
-    String password = _passwordTEC.text;
-    String fullName = _nameTEC.text;
-
-    _authBloc.add(DoRegisterEvent(
-        email: email,
-        password: password,
-        fullName: fullName
-    ));
   }
 }

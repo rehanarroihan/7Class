@@ -51,6 +51,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         _isSecondaryTextShow = 1;
       });
     });
+
+    Future.delayed(const Duration(milliseconds: 800),(){
+      _pc.setPanelPosition(0.5);
+    });
   }
 
   _onBackPressed() {
@@ -86,7 +90,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           topRight: Radius.circular(30.0)
         ),
         snappingWidgets: {
-          0.99: Container(
+          0.99999999: Container(
             padding: EdgeInsets.only(
               top: 16,
               right: 32,

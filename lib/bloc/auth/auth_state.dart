@@ -11,6 +11,8 @@ class InitialAuthState extends AuthState {}
 
 class DoRegisterState extends AuthState {}
 
+class SaveWrittenAuthDataState extends AuthState {}
+
 class RegisterResultState extends AuthState {}
 
 class RegisterPasswordObscureState extends AuthState {}
