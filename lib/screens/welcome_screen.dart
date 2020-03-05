@@ -6,8 +6,8 @@ import 'package:sevenclass/helpers/constant_helper.dart';
 import 'package:sevenclass/widgets/base/finger_tip.dart';
 import 'package:sevenclass/widgets/base/sliding_panel.dart';
 import 'package:sevenclass/widgets/google_style_login_button.dart';
-import 'package:sevenclass/widgets/modules/login_module.dart';
-import 'package:sevenclass/widgets/modules/register_module.dart';
+import 'package:sevenclass/widgets/modules/auth/login_module.dart';
+import 'package:sevenclass/widgets/modules/auth/register_module.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -53,7 +53,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     });
 
     Future.delayed(const Duration(milliseconds: 800),(){
-      _pc.setPanelPosition(0.5);
+      _pc.setPanelPosition(0.19);
     });
   }
 
@@ -74,7 +74,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         controller: _pc,
         maxHeight: _screenHeight - (_screenHeight * 0.115),
         minHeight: _screenHeight * 0.1,
-        panel: Container(),
+        panel: Container(
+          padding: EdgeInsets.only(top: 16),
+          child: Column(children: <Widget>[
+            FingerTip()
+          ]),
+        ),
         body: _illustration(),
         border: Border.all(color: Colors.white),
         boxShadow: [
@@ -90,7 +95,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           topRight: Radius.circular(30.0)
         ),
         snappingWidgets: {
-          0.99999999: Container(
+          0.9999: Container(
             padding: EdgeInsets.only(
               top: 16,
               right: 32,
@@ -119,7 +124,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ]
             ),
           ),
-          0.195: _nineTeenPoint(),
+          0.19: _nineTeenPoint(),
         },
       ),
     );

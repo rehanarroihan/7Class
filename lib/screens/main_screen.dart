@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sevenclass/bloc/auth/bloc.dart';
 import 'package:sevenclass/bloc/home/bloc.dart';
+import 'package:sevenclass/screens/main_sections/class_list_screen.dart';
 import 'package:sevenclass/screens/main_sections/overview_screen.dart';
 import 'package:sevenclass/screens/main_sections/profile_screen.dart';
 import 'package:sevenclass/screens/welcome_screen.dart';
@@ -48,14 +49,18 @@ class MainScreen extends StatelessWidget {
                     iconColor: Colors.grey[500],
                     onPressed: () {
                       _homeBloc.add(ChangeSectionEvent(
-                          sectionActive: SectionActive.OVERVIEW
+                        sectionActive: SectionActive.OVERVIEW
                       ));
                     }
                   ),
                   _bottomMenuItem(
                     icon: Icons.folder,
                     iconColor: Colors.grey[500],
-                    onPressed: () {}
+                    onPressed: () {
+                      _homeBloc.add(ChangeSectionEvent(
+                        sectionActive: SectionActive.CLASSES
+                      ));
+                    }
                   ),
                   _bottomMenuItem(
                     icon: Icons.playlist_add_check,
@@ -83,6 +88,8 @@ class MainScreen extends StatelessWidget {
   Widget _body() {
     if (_homeBloc.sectionActive == SectionActive.OVERVIEW) {
       return OverviewScreen();
+    } else if (_homeBloc.sectionActive == SectionActive.CLASSES) {
+      return ClassListScreen();
     } else if (_homeBloc.sectionActive == SectionActive.PROFILE) {
       return ProfileScreen();
     } else {
