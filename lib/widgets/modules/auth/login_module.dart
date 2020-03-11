@@ -6,6 +6,7 @@ import 'package:sevenclass/bloc/auth/bloc.dart';
 import 'package:sevenclass/helpers/app_color.dart';
 import 'package:sevenclass/helpers/constant_helper.dart';
 import 'package:sevenclass/screens/main_screen.dart';
+import 'package:sevenclass/widgets/base/primary_button.dart';
 import 'package:sevenclass/widgets/base/toast.dart';
 
 class LoginModule extends StatefulWidget {
@@ -23,24 +24,6 @@ class _LoginModuleState extends State<LoginModule> {
   GlobalKey<FormState> _loginFormState = GlobalKey();
   TextEditingController _emailTEC = new TextEditingController();
   TextEditingController _passwordTEC = new TextEditingController();
-
-  _doLogin() {
-    _loginFormState.currentState.save();
-    _authBloc.add(LoginAutoValidateOnEvent());
-    bool valid = _loginFormState.currentState.validate();
-
-    if (!valid) {
-      return false;
-    }
-
-    String email = _emailTEC.text;
-    String password = _passwordTEC.text;
-
-    _authBloc.add(DoLoginEvent(
-        email: email,
-        password: password
-    ));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -143,23 +126,12 @@ class _LoginModuleState extends State<LoginModule> {
               SizedBox(height: 32),
               Container(
                 width: double.infinity,
-                child: RaisedButton(
-                  onPressed: () => !_authBloc.isRegisterLoading ? _doLogin() : null,
-                  color: AppColors.primaryColor,
-                  padding: EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)
-                  ),
-                  child: Text(
-                    _authBloc.isLoginLoading ? 'Please wait...' : 'Masuk',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: ConstantHelper.PRIMARY_FONT,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white
-                    ),
-                  ),
-                ),
+                child: PrimaryButton(
+                  text: _authBloc.isLoginLoading ? 'Please wait...' : 'Masuk',
+                  onTap: () {
+                    !_authBloc.isRegisterLoading ? _doLogin() : null;
+                  },
+                )
               ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 18),
@@ -193,5 +165,23 @@ class _LoginModuleState extends State<LoginModule> {
         ],
       ),
     );
+  }
+
+  _doLogin() {
+    _loginFormState.currentState.save();
+    _authBloc.add(LoginAutoValidateOnEvent());
+    bool valid = _loginFormState.currentState.validate();
+
+    if (!valid) {
+      return false;
+    }
+
+    String email = _emailTEC.text;
+    String password = _passwordTEC.text;
+
+    _authBloc.add(DoLoginEvent(
+        email: email,
+        password: password
+    ));
   }
 }

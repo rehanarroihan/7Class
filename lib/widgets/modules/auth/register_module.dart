@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sevenclass/bloc/auth/bloc.dart';
 import 'package:sevenclass/helpers/app_color.dart';
 import 'package:sevenclass/helpers/constant_helper.dart';
+import 'package:sevenclass/widgets/base/primary_button.dart';
 import 'package:sevenclass/widgets/base/toast.dart';
 
 class RegisterModule extends StatefulWidget {
@@ -157,23 +158,12 @@ class _RegisterModuleState extends State<RegisterModule> {
               SizedBox(height: 32),
               Container(
                 width: double.infinity,
-                child: RaisedButton(
-                  onPressed: () => !_authBloc.isRegisterLoading ? _doRegister() : null,
-                  color: AppColors.primaryColor,
-                  padding: EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)
-                  ),
-                  child: Text(
-                    _authBloc.isRegisterLoading ? 'Please wait...' : 'Daftar',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: ConstantHelper.PRIMARY_FONT,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white
-                    ),
-                  ),
-                ),
+                child: PrimaryButton(
+                  text: _authBloc.isRegisterLoading ? 'Please wait...' : 'Daftar',
+                  onTap: () {
+                    !_authBloc.isRegisterLoading ? _doRegister() : null;
+                  },
+                )
               ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 18),

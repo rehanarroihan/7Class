@@ -152,9 +152,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           ),
           SizedBox(height: 4),
           RaisedButton(
-            onPressed: () {
-              _pc.open();
-            },
+            onPressed: () => _pc.animatePanelToPosition(0.9999),
             color: Colors.transparent,
             elevation: 0,
             highlightElevation: 0,

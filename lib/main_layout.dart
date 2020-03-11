@@ -5,6 +5,7 @@ import 'package:sevenclass/screens/splash_screen.dart';
 
 import 'app.dart';
 import 'bloc/auth/bloc.dart';
+import 'bloc/classes/bloc.dart';
 import 'bloc/home/bloc.dart';
 
 class MainLayout extends StatelessWidget {
@@ -15,7 +16,8 @@ class MainLayout extends StatelessWidget {
       providers: [
         BlocProvider<SplashBloc>(create: (BuildContext context) => SplashBloc()),
         BlocProvider<AuthBloc>(create: (BuildContext context) => AuthBloc()),
-        BlocProvider<HomeBloc>(create: (BuildContext context) => HomeBloc())
+        BlocProvider<HomeBloc>(create: (BuildContext context) => HomeBloc()),
+        BlocProvider<ClassesBloc>(create: (BuildContext context) => ClassesBloc())
       ],
       child: MaterialApp(
         title: App().appTitle,

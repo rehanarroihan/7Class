@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sevenclass/bloc/splash/bloc.dart';
 import 'package:sevenclass/helpers/app_color.dart';
-import 'package:sevenclass/helpers/constant_helper.dart';
 import 'package:sevenclass/models/slider.dart';
 import 'package:sevenclass/screens/welcome_screen.dart';
 import 'package:sevenclass/widgets/base/descriptive.dart';
+import 'package:sevenclass/widgets/base/primary_button.dart';
 
 class IntroScreen extends StatelessWidget {
+  SplashBloc _splashBloc;
 
   @override
   Widget build(BuildContext context) {
-    SplashBloc _splashBloc = BlocProvider.of<SplashBloc>(context);
+    _splashBloc = BlocProvider.of<SplashBloc>(context);
     final PageController _pageController = PageController(initialPage: 0);
 
     return BlocListener(
@@ -75,22 +76,10 @@ class IntroScreen extends StatelessWidget {
                               horizontal: 92
                             ),
                             width: double.infinity,
-                            child: RaisedButton(
-                              onPressed: () {},
-                              color: AppColors.primaryColor,
-                              padding: EdgeInsets.symmetric(vertical: 14),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18)
-                              ),
-                              child: Text(
-                                _splashBloc.introCurrentPage != 2 ? 'Next' : 'Get Started',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontFamily: ConstantHelper.PRIMARY_FONT,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white
-                                ),
-                              ),
+                            child: PrimaryButton(
+                              text: _splashBloc.introCurrentPage != 2 ? 'Next' : 'Get Started',
+                              onTap: () {},
+                              isRounded: true
                             ),
                           ),
                         ],
