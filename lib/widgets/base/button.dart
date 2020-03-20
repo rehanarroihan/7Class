@@ -2,14 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:sevenclass/helpers/app_color.dart';
 import 'package:sevenclass/helpers/constant_helper.dart';
 
-class PrimaryButton extends StatelessWidget {
+enum ButtonStyle {
+  PRIMARY,
+  OUTLINE,
+  DANGER,
+  FLAT
+}
+
+class Button extends StatelessWidget {
   final String text;
   final Function onTap;
+  final ButtonStyle style;
   final bool isRounded;
 
-  PrimaryButton({
+  Button({
     @required this.text,
     @required this.onTap,
+    @required this.style,
     this.isRounded = false
   });
 
@@ -17,8 +26,13 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return RaisedButton(
       onPressed: onTap,
-      color: AppColors.primaryColor,
+      color: style == ButtonStyle.PRIMARY
+          ? AppColors.primaryColor
+        : style == ButtonStyle.PRIMARY
+          ? Colors.red[500]
+        : AppColors.primaryColor,
       padding: EdgeInsets.symmetric(vertical: 14),
+      highlightElevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(isRounded ? 18 : 14)
       ),

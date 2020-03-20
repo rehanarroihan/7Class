@@ -10,7 +10,7 @@ Future<Null> main() async {
 
   App.configure(
     flavor: Flavor.DEVELOPMENT,
-    apiBaseURL: 'http://192.168.137.1:8087/v1/',
+    apiBaseURL: 'http://10.208.92.217:8087/v1/',
     appTitle: '7Class Development'
   );
 

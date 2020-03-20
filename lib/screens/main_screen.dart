@@ -101,6 +101,9 @@ class MainScreen extends StatelessWidget {
     return Expanded(
       child: FlatButton(
         onPressed: onPressed,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(0)
+        ),
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 15),
           child: Icon(

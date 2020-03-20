@@ -119,6 +119,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       _prefs.setString(ConstantHelper.USER_EMAIL_PREF, result.data.detail.email);
       _prefs.setString(ConstantHelper.USER_FIRST_NAME_PREF, result.data.detail.firstName);
       _prefs.setString(ConstantHelper.USER_LAST_NAME_PREF, result.data.detail.lastName);
+      App().setDioHeader();
       yield RegisterResultState();
     }
   }

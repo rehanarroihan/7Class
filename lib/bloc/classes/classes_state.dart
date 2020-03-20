@@ -10,3 +10,17 @@ abstract class ClassesState extends Equatable {
 class InitialClassesState extends ClassesState {}
 
 class IsCameraPermissionGrantedState extends ClassesState {}
+
+class ClassCodeValidState extends ClassesState {}
+
+class EnrollClassFailedState extends ClassesState {
+  final String message;
+
+  EnrollClassFailedState({this.message});
+}
+
+class EnrollClassNotFoundState extends ClassesState {}
+
+class EnrollClassJoinedState extends ClassesState {}
+
+class EnrollClassResultState extends ClassesState {}

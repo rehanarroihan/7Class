@@ -1,7 +1,6 @@
 class ConstantHelper {
   // Prefs key
   static const String IS_FIRST_TIME_LAUNCH_PREF = 'IS_FIRST_TIME_LAUNCH_PREF';
-  static const String AUTH_TOKEN_PREF = 'AUTH_TOKEN_PREF';
   // Auth
   static const String IS_USER_LOGGED_IN_PREF = 'IS_USER_LOGGED_IN_PREF';
   static const String USER_JWT_TOKEN_PREF = 'JWT_TOKEN_PREF';

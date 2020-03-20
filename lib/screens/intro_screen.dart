@@ -5,8 +5,8 @@ import 'package:sevenclass/bloc/splash/bloc.dart';
 import 'package:sevenclass/helpers/app_color.dart';
 import 'package:sevenclass/models/slider.dart';
 import 'package:sevenclass/screens/welcome_screen.dart';
+import 'package:sevenclass/widgets/base/button.dart';
 import 'package:sevenclass/widgets/base/descriptive.dart';
-import 'package:sevenclass/widgets/base/primary_button.dart';
 
 class IntroScreen extends StatelessWidget {
   SplashBloc _splashBloc;
@@ -76,7 +76,8 @@ class IntroScreen extends StatelessWidget {
                               horizontal: 92
                             ),
                             width: double.infinity,
-                            child: PrimaryButton(
+                            child: Button(
+                              style: ButtonStyle.PRIMARY,
                               text: _splashBloc.introCurrentPage != 2 ? 'Next' : 'Get Started',
                               onTap: () {},
                               isRounded: true

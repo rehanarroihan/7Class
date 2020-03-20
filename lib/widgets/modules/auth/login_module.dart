@@ -6,7 +6,7 @@ import 'package:sevenclass/bloc/auth/bloc.dart';
 import 'package:sevenclass/helpers/app_color.dart';
 import 'package:sevenclass/helpers/constant_helper.dart';
 import 'package:sevenclass/screens/main_screen.dart';
-import 'package:sevenclass/widgets/base/primary_button.dart';
+import 'package:sevenclass/widgets/base/button.dart';
 import 'package:sevenclass/widgets/base/toast.dart';
 
 class LoginModule extends StatefulWidget {
@@ -126,11 +126,10 @@ class _LoginModuleState extends State<LoginModule> {
               SizedBox(height: 32),
               Container(
                 width: double.infinity,
-                child: PrimaryButton(
+                child: Button(
+                  style: ButtonStyle.PRIMARY,
                   text: _authBloc.isLoginLoading ? 'Please wait...' : 'Masuk',
-                  onTap: () {
-                    !_authBloc.isRegisterLoading ? _doLogin() : null;
-                  },
+                  onTap: !_authBloc.isRegisterLoading ? () => _doLogin() : null,
                 )
               ),
               Padding(

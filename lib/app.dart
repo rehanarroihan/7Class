@@ -60,10 +60,14 @@ class App {
         responseType: ResponseType.json
       )
     );
-    dio.options.headers = {
-      'Authorization': sharedPreferences.get(ConstantHelper.AUTH_TOKEN_PREF)
-    };
+    setDioHeader();
     setDioInterceptor();
+  }
+
+  void setDioHeader() {
+    dio.options.headers = {
+      'Authorization': 'Bearer ${sharedPreferences.get(ConstantHelper.USER_JWT_TOKEN_PREF)}'
+    };
   }
 
   void setDioInterceptor() {
@@ -72,6 +76,10 @@ class App {
       if (e.response.statusCode != null) {
         if (e.response.statusCode == 400) {
           showToast(data['message']);
+        }
+        // INFO : Kicking out user to login page when !authenticated
+        if (e.response.statusCode == 401) {
+          showToast('Unauthorized');
         }
       }
       return e;

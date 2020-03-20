@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qr_code_scanner/qr_scanner_overlay_shape.dart';
 import 'package:sevenclass/bloc/classes/bloc.dart';
+import 'package:sevenclass/helpers/app_color.dart';
 import 'package:sevenclass/helpers/constant_helper.dart';
+import 'package:sevenclass/widgets/base/button.dart';
 import 'package:sevenclass/widgets/base/finger_tip.dart';
-import 'package:sevenclass/widgets/base/primary_button.dart';
 import 'package:sevenclass/widgets/base/sliding_panel.dart';
 import 'package:sevenclass/widgets/modules/classes/camera_permission.dart';
 
@@ -26,17 +27,53 @@ class _JoinClassScreenState extends State<JoinClassScreen> {
   String qrText = "";
   TextEditingController _classCodeTEC = TextEditingController();
 
-  Function _joinClass;
-
   void _onQRViewCreated(QRViewController controller) async {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) async {
       if(qrText != scanData){
-        setState(() {
-          print(scanData);
-        });
+        print(scanData);
       }
     });
+  }
+
+  _joinClass() {
+    _classesBloc.add(EnrollClassEvent(
+      classCode: _classCodeTEC.text
+    ));
+  }
+
+  Future<void> _alreadyJoined(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Hi'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('You have joined this class'),
+                Text('You\’re like me. I’m never satisfied.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text('Go to class'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -47,7 +84,13 @@ class _JoinClassScreenState extends State<JoinClassScreen> {
 
     return BlocListener(
       bloc: _classesBloc,
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is EnrollClassJoinedState) {
+          _alreadyJoined(context);
+        } else if (state is EnrollClassNotFoundState) {
+          _alreadyJoined(context);
+        }
+      },
       child: BlocBuilder(
         bloc: _classesBloc,
         builder: (context, state) {
@@ -66,23 +109,21 @@ class _JoinClassScreenState extends State<JoinClassScreen> {
                   width: 100,
                   child: Column(
                     children: <Widget>[
-                      SizedBox(height: 38),
                       _backButton(context),
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-                      !_classesBloc.isCameraPermissionGranted
+                      _classesBloc.isCameraPermissionGranted
                         ? Expanded(
-                          child: QRView(
-                            key: qrKey,
-                            onQRViewCreated: _onQRViewCreated,
-                            overlay: QrScannerOverlayShape(
-                              borderColor: Colors.red,
-                              borderRadius: 10,
-                              borderLength: 30,
-                              borderWidth: 10,
-                              cutOutSize: 300,
+                            child: QRView(
+                              key: qrKey,
+                              onQRViewCreated: _onQRViewCreated,
+                              overlay: QrScannerOverlayShape(
+                                borderColor: AppColors.primaryColor,
+                                borderRadius: 10,
+                                borderLength: 30,
+                                borderWidth: 10,
+                                cutOutSize: 300,
+                              ),
                             ),
-                          ),
-                        )
+                          )
                         : CameraPermission(),
                     ],
                   ),
@@ -118,10 +159,10 @@ class _JoinClassScreenState extends State<JoinClassScreen> {
   Widget _enterCodePanel() {
     return Container(
       padding: EdgeInsets.only(
-          top: 16,
-          right: 32,
-          bottom: 32,
-          left: 32
+        top: 16,
+        right: 32,
+        bottom: 32,
+        left: 32
       ),
       child: Column(
         children: <Widget>[
@@ -153,33 +194,25 @@ class _JoinClassScreenState extends State<JoinClassScreen> {
                   ),
                 ),
                 onChanged: (value) {
-                  if (value.length < 6) {
-                    setState(() {
-                      _joinClass = null;
-                    });
-                  } else if (value.length > 6) {
-                    setState(() {
-                      _joinClass = () {
-
-                      };
-                    });
+                  if (value.length < 5) {
+                    _classesBloc.add(ClassCodeValidEvent(
+                      isClassCodeValid: false
+                    ));
+                  } else if (value.length >= 5) {
+                    _classesBloc.add(ClassCodeValidEvent(
+                      isClassCodeValid: true
+                    ));
                   }
-                },
-                validator: (value) {
-                  if (value == "") {
-                    return 'Masukkan nama lengkap';
-                  }
-
-                  return null;
-                },
-                autovalidate: false,
+                }
               ),
               SizedBox(height: 12),
               Container(
                 width: double.infinity,
-                child: PrimaryButton(
-                  text:  'Gabung',
-                  onTap: _joinClass,
+                child: Button(
+                  style: ButtonStyle.PRIMARY,
+                  text: _classesBloc.isEnrollLoading ? 'Plese Wait...' : 'Gabung',
+                  onTap: _classesBloc.isClassCodeValid && !_classesBloc.isEnrollLoading
+                      ? _joinClass : null,
                 )
               ),
             ],

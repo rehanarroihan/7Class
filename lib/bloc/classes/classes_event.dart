@@ -18,3 +18,21 @@ class RequestPermissionEvent extends ClassesEvent {
   @override
   String toString() => 'RequestPermissionEvent';
 }
+
+class ClassCodeValidEvent extends ClassesEvent {
+  final bool isClassCodeValid;
+
+  ClassCodeValidEvent({this.isClassCodeValid});
+
+  @override
+  String toString() => 'ClassCodeValidEvent';
+}
+
+class EnrollClassEvent extends ClassesEvent {
+  final String classCode;
+
+  EnrollClassEvent({this.classCode});
+
+  @override
+  String toString() => 'EnrollClassEvent';
+}
