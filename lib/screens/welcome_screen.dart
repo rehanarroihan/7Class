@@ -81,7 +81,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           ]),
         ),
         body: _illustration(),
-        border: Border.all(color: Colors.white),
+        border: Border.all(color: AppColors.white),
         boxShadow: [
           BoxShadow(
             color: AppColors.grey,

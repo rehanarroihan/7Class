@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 
 import './bloc.dart';
 
-enum SectionActive { OVERVIEW, CLASSES, TASK, PROFILE }
+enum SectionActive { OVERVIEW, PRIVATE, CLASSES, TASK, PROFILE }
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   SectionActive sectionActive = SectionActive.OVERVIEW;

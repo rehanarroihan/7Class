@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sevenclass/bloc/auth/bloc.dart';
 import 'package:sevenclass/bloc/home/bloc.dart';
+import 'package:sevenclass/helpers/app_color.dart';
 import 'package:sevenclass/screens/main_sections/class_list_screen.dart';
 import 'package:sevenclass/screens/main_sections/overview_screen.dart';
 import 'package:sevenclass/screens/main_sections/profile_screen.dart';
 import 'package:sevenclass/screens/welcome_screen.dart';
+
+import 'main_sections/private_room_screen.dart';
 
 class MainScreen extends StatelessWidget {
   AuthBloc _authBloc;
@@ -32,7 +35,7 @@ class MainScreen extends StatelessWidget {
             body: _body(),
             bottomNavigationBar: Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
                 boxShadow: [
                   BoxShadow(
                     color: Color(0XFFD3D6DA).withAlpha(50),
@@ -58,14 +61,18 @@ class MainScreen extends StatelessWidget {
                     iconColor: Colors.grey[500],
                     onPressed: () {
                       _homeBloc.add(ChangeSectionEvent(
-                        sectionActive: SectionActive.CLASSES
+                          sectionActive: SectionActive.PRIVATE
                       ));
                     }
                   ),
                   _bottomMenuItem(
                     icon: Icons.playlist_add_check,
                     iconColor: Colors.grey[500],
-                    onPressed: () {}
+                    onPressed: () {
+                      _homeBloc.add(ChangeSectionEvent(
+                        sectionActive: SectionActive.CLASSES
+                      ));
+                    }
                   ),
                   _bottomMenuItem(
                     icon: Icons.person,
@@ -88,6 +95,8 @@ class MainScreen extends StatelessWidget {
   Widget _body() {
     if (_homeBloc.sectionActive == SectionActive.OVERVIEW) {
       return OverviewScreen();
+    } else if (_homeBloc.sectionActive == SectionActive.PRIVATE) {
+      return PrivateRoomScreen();
     } else if (_homeBloc.sectionActive == SectionActive.CLASSES) {
       return ClassListScreen();
     } else if (_homeBloc.sectionActive == SectionActive.PROFILE) {

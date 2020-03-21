@@ -147,7 +147,7 @@ class _JoinClassScreenState extends State<JoinClassScreen> {
           child: FloatingActionButton(
             elevation: 0,
             highlightElevation: 0,
-            backgroundColor: Colors.white,
+            backgroundColor: AppColors.white,
             onPressed: () => Navigator.pop(context),
             child: Icon(Icons.arrow_back, color: Colors.black87),
           ),

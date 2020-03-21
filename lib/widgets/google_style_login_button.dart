@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sevenclass/helpers/app_color.dart';
 import 'package:sevenclass/helpers/constant_helper.dart';
 
 class GoogleStyleLoginButton extends StatelessWidget {
@@ -23,7 +24,7 @@ class GoogleStyleLoginButton extends StatelessWidget {
       ),
       child: FlatButton(
         onPressed: onPressed,
-        color: Colors.white,
+        color: AppColors.white,
         padding: EdgeInsets.symmetric(vertical: 14),
         highlightColor: Colors.grey[300],
         splashColor: Colors.lightBlueAccent,

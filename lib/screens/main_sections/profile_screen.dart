@@ -24,7 +24,7 @@ class ProfileScreen extends StatelessWidget {
               Container(
                 width: double.infinity,
                 padding: EdgeInsets.all(16),
-                color: Colors.white,
+                color: AppColors.white,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -70,7 +70,7 @@ class ProfileScreen extends StatelessWidget {
               SizedBox(height: 16),
               Container(
                 width: double.infinity,
-                color: Colors.white,
+                color: AppColors.white,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -112,7 +112,7 @@ class ProfileScreen extends StatelessWidget {
               SizedBox(height: 16),
               Container(
                 width: double.infinity,
-                color: Colors.white,
+                color: AppColors.white,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -207,7 +207,7 @@ class ProfileScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(0)
         ),
         child: ListTile(
-          leading: Icon(icon, color: Colors.black),
+          leading: Icon(icon, color: AppColors.black),
           contentPadding: EdgeInsets.all(0),
           title: Align(
             alignment: Alignment(-1.2, 0),

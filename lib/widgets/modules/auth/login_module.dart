@@ -49,7 +49,7 @@ class _LoginModuleState extends State<LoginModule> {
 
   Widget _loginWidget() {
     return Container(
-      color: Colors.white,
+      color: AppColors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -129,7 +129,7 @@ class _LoginModuleState extends State<LoginModule> {
                 child: Button(
                   style: ButtonStyle.PRIMARY,
                   text: _authBloc.isLoginLoading ? 'Please wait...' : 'Masuk',
-                  onTap: !_authBloc.isRegisterLoading ? () => _doLogin() : null,
+                  onTap: !_authBloc.isLoginLoading ? () => _doLogin() : null,
                 )
               ),
               Padding(

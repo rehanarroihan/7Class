@@ -68,7 +68,7 @@ class _RegisterModuleState extends State<RegisterModule> {
 
   Widget _registerWidget() {
     return Container(
-      color: Colors.white,
+      color: AppColors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

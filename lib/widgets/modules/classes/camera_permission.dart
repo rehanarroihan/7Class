@@ -25,7 +25,7 @@ class CameraPermission extends StatelessWidget {
               fontFamily: ConstantHelper.PRIMARY_FONT,
               fontSize: 15,
               fontWeight: FontWeight.w600,
-              color: Colors.white
+              color: AppColors.white
             ),
             textAlign: TextAlign.center,
           ),
@@ -56,7 +56,7 @@ class CameraPermission extends StatelessWidget {
                 fontSize: 16,
                 fontFamily: ConstantHelper.PRIMARY_FONT,
                 fontWeight: FontWeight.w600,
-                color: Colors.white
+                color: AppColors.white
               ),
             ),
           ),

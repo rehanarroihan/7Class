@@ -42,7 +42,7 @@ class Button extends StatelessWidget {
           fontSize: 18,
           fontFamily: ConstantHelper.PRIMARY_FONT,
           fontWeight: FontWeight.w600,
-          color: Colors.white
+          color: AppColors.white
         ),
       ),
     );

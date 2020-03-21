@@ -6,7 +6,7 @@ showToast(String message) {
     toastLength: Toast.LENGTH_SHORT,
     gravity: ToastGravity.BOTTOM,
     timeInSecForIos: 1,
-    fontSize: 16.0
+    fontSize: 16
   );
 }
 

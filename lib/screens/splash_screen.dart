@@ -43,7 +43,7 @@ class SplashScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               AppText(
-                '7Class.co',
+                text: '7Class.co',
                 fontSize: 32,
                 fontWeight: FontWeight.w500,
               )
