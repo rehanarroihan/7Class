@@ -14,7 +14,7 @@ class OverviewScreen extends StatelessWidget {
     _authBloc = BlocProvider.of<AuthBloc>(context);
 
     return Scaffold(
-      backgroundColor: Color(0xFFf2f6ff),
+      backgroundColor: AppColors.blueBackground,
       appBar: AppBar(
         backgroundColor: AppColors.white,
         elevation: 0,
@@ -96,7 +96,7 @@ class OverviewScreen extends StatelessWidget {
                               right: 16
                             ),
                             decoration: BoxDecoration(
-                              color: Color(0xFFf2f6ff),
+                              color: AppColors.blueBackground,
                               borderRadius: BorderRadius.all(Radius.circular(30)),
                             ),
                             height: 80,

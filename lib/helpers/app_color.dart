@@ -8,6 +8,7 @@ class AppColors {
 
   static Color grey = Color(0xFFe2e2e2);
   static Color greyBackground = Color(0xFFF4F4F4);
+  static Color blueBackground = Color(0xFFf2f6ff);
   static Color greyTabIndicator = Color(0xFFFEF3FB);
   static Color greyTabUnselected = Color(0xFF8E8E8E);
   static Color greyTertiary = Color(0xFF585858);

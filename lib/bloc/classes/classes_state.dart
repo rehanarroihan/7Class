@@ -24,3 +24,7 @@ class EnrollClassNotFoundState extends ClassesState {}
 class EnrollClassJoinedState extends ClassesState {}
 
 class EnrollClassResultState extends ClassesState {}
+
+class GetClassSuccessState extends ClassesState {}
+
+class GetClassFailedState extends ClassesState {}

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sevenclass/bloc/auth/bloc.dart';
+import 'package:sevenclass/bloc/classes/bloc.dart';
 import 'package:sevenclass/bloc/home/bloc.dart';
 import 'package:sevenclass/helpers/app_color.dart';
 import 'package:sevenclass/screens/main_sections/class_list_screen.dart';
@@ -13,11 +14,15 @@ import 'main_sections/private_room_screen.dart';
 class MainScreen extends StatelessWidget {
   AuthBloc _authBloc;
   HomeBloc _homeBloc;
+  ClassesBloc _classesBloc;
 
   @override
   Widget build(BuildContext context) {
     _authBloc = BlocProvider.of<AuthBloc>(context);
     _homeBloc = BlocProvider.of<HomeBloc>(context);
+    _classesBloc = BlocProvider.of<ClassesBloc>(context);
+
+    _classesBloc.add(GetMyClassEvent());
 
     return BlocListener(
       bloc: _authBloc,

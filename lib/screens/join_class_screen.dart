@@ -238,9 +238,10 @@ class _JoinClassScreenState extends State<JoinClassScreen> {
                 width: double.infinity,
                 child: Button(
                   style: ButtonStyle.PRIMARY,
-                  text: _classesBloc.isEnrollLoading ? 'Plese Wait...' : 'Gabung',
+                  text: _classesBloc.isEnrollLoading ? 'Please Wait...' : 'Gabung',
                   onTap: _classesBloc.isClassCodeValid && !_classesBloc.isEnrollLoading
-                      ? _joinClass : null,
+                      ? _joinClass
+                      : null,
                 )
               ),
             ],

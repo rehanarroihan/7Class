@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:sevenclass/models/default_model.dart';
+import 'package:sevenclass/models/my_classes_model.dart';
 import 'package:sevenclass/services/classes_service.dart';
 import 'package:sevenclass/services/permission_handler_service.dart';
 
@@ -14,7 +15,10 @@ class ClassesBloc extends Bloc<ClassesEvent, ClassesState> {
   bool isCameraPermissionGranted = false;
   bool isClassCodeValid = false;
 
+  bool isGetMyClassLoading = false;
   bool isEnrollLoading = false;
+
+  List<Classes> classList = List<Classes>();
 
   @override
   ClassesState get initialState => InitialClassesState();
@@ -29,6 +33,8 @@ class ClassesBloc extends Bloc<ClassesEvent, ClassesState> {
       yield* _toggleClassCodeValid(event);
     } else if (event is EnrollClassEvent) {
       yield* _enrollClass(event);
+    } else if (event is GetMyClassEvent) {
+      yield* _getMyClass();
     }
   }
 
@@ -72,6 +78,20 @@ class ClassesBloc extends Bloc<ClassesEvent, ClassesState> {
       }
     } else {
       yield EnrollClassResultState();
+    }
+  }
+
+  Stream<ClassesState> _getMyClass() async* {
+    this.isGetMyClassLoading = true;
+    print('cok');
+    yield InitialClassesState();
+
+    MyClassesModel response = await _classesServices.getMyClass();
+    if (!response.success) {
+      yield GetClassSuccessState();
+    } else {
+      this.classList = response.data;
+      yield GetClassFailedState();
     }
   }
 }

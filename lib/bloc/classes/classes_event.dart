@@ -36,3 +36,9 @@ class EnrollClassEvent extends ClassesEvent {
   @override
   String toString() => 'EnrollClassEvent';
 }
+
+class GetMyClassEvent extends ClassesEvent {
+
+  @override
+  String toString() => 'GetMyClassEvent';
+}
