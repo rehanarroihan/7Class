@@ -121,7 +121,6 @@ class OverviewScreen extends StatelessWidget {
                                   color: AppColors.black
                                 ),
                               ),
-
                             ],
                           )
                         ],

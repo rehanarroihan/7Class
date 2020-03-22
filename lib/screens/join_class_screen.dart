@@ -17,6 +17,7 @@ class JoinClassScreen extends StatefulWidget {
 
 class _JoinClassScreenState extends State<JoinClassScreen> {
   PanelController _pc = PanelController();
+  bool _onGoAheadClicked = false;
 
   double _screenHeight = 0;
 
@@ -95,41 +96,61 @@ class _JoinClassScreenState extends State<JoinClassScreen> {
         bloc: _classesBloc,
         builder: (context, state) {
           return Scaffold(
-            body: SlidingPanel(
-              controller: _pc,
-              isDraggable: false,
-              minHeight: _screenHeight * 0.32,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30.0),
-                topRight: Radius.circular(30.0)
-              ),
-              body: Container(
-                color: Colors.black87,
-                child: Container(
-                  width: 100,
-                  child: Column(
-                    children: <Widget>[
-                      _backButton(context),
-                      _classesBloc.isCameraPermissionGranted
-                        ? Expanded(
-                            child: QRView(
-                              key: qrKey,
-                              onQRViewCreated: _onQRViewCreated,
-                              overlay: QrScannerOverlayShape(
-                                borderColor: AppColors.primaryColor,
-                                borderRadius: 10,
-                                borderLength: 30,
-                                borderWidth: 10,
-                                cutOutSize: 300,
-                              ),
-                            ),
-                          )
-                        : CameraPermission(),
-                    ],
+            body: Container(
+              height: _screenHeight,
+              child: Stack(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                      height: _screenHeight * 0.74,
+                      width: double.infinity,
+                      color: Colors.black87,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          _classesBloc.isCameraPermissionGranted || _onGoAheadClicked
+                              ? Expanded(
+                                child: QRView(
+                                    key: qrKey,
+                                    onQRViewCreated: _onQRViewCreated,
+                                    overlay: QrScannerOverlayShape(
+                                      borderColor: AppColors.primaryColor,
+                                      borderRadius: 10,
+                                      borderLength: 30,
+                                      borderWidth: 10,
+                                      cutOutSize: 220,
+                                    ),
+                                  ),
+                                )
+                              : CameraPermission(
+                                  onGo: () {
+                                    setState(() {
+                                      _onGoAheadClicked = true;
+                                    });
+                                  },
+                                )
+                        ],
+                      ),
+                    ),
                   ),
-                ),
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: SafeArea(
+                      child: Column(
+                        children: <Widget>[
+                          SizedBox(height: 12),
+                          _backButton(context)
+                        ],
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: _enterCodePanel(),
+                  ),
+                ],
               ),
-              panel: _enterCodePanel(),
             ),
           );
         },
@@ -158,11 +179,18 @@ class _JoinClassScreenState extends State<JoinClassScreen> {
 
   Widget _enterCodePanel() {
     return Container(
+      height: _screenHeight * 0.32,
       padding: EdgeInsets.only(
         top: 16,
         right: 32,
-        bottom: 32,
         left: 32
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30.0),
+            topRight: Radius.circular(30.0)
+        ),
       ),
       child: Column(
         children: <Widget>[

@@ -1,18 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sevenclass/bloc/classes/bloc.dart';
 import 'package:sevenclass/helpers/app_color.dart';
 import 'package:sevenclass/helpers/constant_helper.dart';
-import 'package:sevenclass/services/permission_handler_service.dart';
 
 class CameraPermission extends StatelessWidget {
-  ClassesBloc _classesBloc;
+  final Function onGo;
+
+  CameraPermission({this.onGo});
 
   @override
   Widget build(BuildContext context) {
-    _classesBloc = BlocProvider.of<ClassesBloc>(context);
-
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -41,10 +38,7 @@ class CameraPermission extends StatelessWidget {
           ),
           SizedBox(height: 8),
           RaisedButton(
-            onPressed: () {
-              //_classesBloc.add(RequestPermissionEvent())
-              PermissionHandlerService().requestCameraPermission();
-            },
+            onPressed: onGo,
             color: AppColors.primaryColor,
             padding: EdgeInsets.symmetric(vertical: 8),
             shape: RoundedRectangleBorder(
