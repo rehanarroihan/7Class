@@ -24,4 +24,13 @@ class ClassesServices {
       return MyClassesModel(success: false);
     }
   }
+
+  Future<DefaultModel> createNewClass(Map<String, dynamic> payload) async {
+    try {
+      Response response = await dio.post('class', data: payload);
+      return DefaultModel.fromJson(response.data);
+    } catch(e) {
+      return DefaultModel(success: false);
+    }
+  }
 }

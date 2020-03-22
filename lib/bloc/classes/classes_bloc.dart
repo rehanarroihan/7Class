@@ -17,6 +17,7 @@ class ClassesBloc extends Bloc<ClassesEvent, ClassesState> {
 
   bool isGetMyClassLoading = false;
   bool isEnrollLoading = false;
+  bool isCreateClassLoading = false;
 
   List<Classes> classList = List<Classes>();
 
@@ -35,6 +36,8 @@ class ClassesBloc extends Bloc<ClassesEvent, ClassesState> {
       yield* _enrollClass(event);
     } else if (event is GetMyClassEvent) {
       yield* _getMyClass();
+    } else if (event is CreateNewClassEvent) {
+      yield* _createNewClass(event);
     }
   }
 
@@ -83,15 +86,32 @@ class ClassesBloc extends Bloc<ClassesEvent, ClassesState> {
 
   Stream<ClassesState> _getMyClass() async* {
     this.isGetMyClassLoading = true;
-    print('cok');
     yield InitialClassesState();
 
     MyClassesModel response = await _classesServices.getMyClass();
+    this.isGetMyClassLoading = false;
     if (!response.success) {
       yield GetClassSuccessState();
     } else {
       this.classList = response.data;
       yield GetClassFailedState();
+    }
+  }
+
+  Stream<ClassesState> _createNewClass(CreateNewClassEvent event) async* {
+    this.isCreateClassLoading = true;
+    yield InitialClassesState();
+
+    Map<String, dynamic> payload = {
+      "name": event.className,
+      "description": event.classDescription
+    };
+    DefaultModel response = await _classesServices.createNewClass(payload);
+    this.isCreateClassLoading = false;
+    if (!response.success) {
+      yield CreateNewClassFailedState();
+    } else {
+      yield CreateNewClassSuccessState();
     }
   }
 }

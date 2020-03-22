@@ -43,7 +43,7 @@ class App {
     // configure blog delegate
     BlocSupervisor.delegate = SimpleBlocDelegate();
 
-    Crashlytics.instance.enableInDevMode = true;
+    Crashlytics.instance.enableInDevMode = false;
     Crashlytics.instance.setUserEmail('Unauthorized');
     Crashlytics.instance.setUserName('Unauthorized');
     Crashlytics.instance.setUserIdentifier('Unauthorized');

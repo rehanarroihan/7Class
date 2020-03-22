@@ -42,3 +42,13 @@ class GetMyClassEvent extends ClassesEvent {
   @override
   String toString() => 'GetMyClassEvent';
 }
+
+class CreateNewClassEvent extends ClassesEvent {
+  final String className;
+  final String classDescription;
+
+  CreateNewClassEvent({this.className, this.classDescription});
+
+  @override
+  String toString() => 'CreateNewClassEvent';
+}

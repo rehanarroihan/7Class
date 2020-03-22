@@ -28,3 +28,7 @@ class EnrollClassResultState extends ClassesState {}
 class GetClassSuccessState extends ClassesState {}
 
 class GetClassFailedState extends ClassesState {}
+
+class CreateNewClassSuccessState extends ClassesState {}
+
+class CreateNewClassFailedState extends ClassesState {}
