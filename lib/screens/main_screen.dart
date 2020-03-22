@@ -49,38 +49,54 @@ class MainScreen extends StatelessWidget {
                 children: <Widget>[
                   _bottomMenuItem(
                     icon: Icons.dashboard,
-                    iconColor: Colors.grey[500],
+                    iconColor: _homeBloc.sectionActive == SectionActive.OVERVIEW
+                      ? AppColors.primaryColor
+                      : Colors.grey[500],
                     onPressed: () {
-                      _homeBloc.add(ChangeSectionEvent(
-                        sectionActive: SectionActive.OVERVIEW
-                      ));
+                      if (_homeBloc.sectionActive != SectionActive.OVERVIEW) {
+                        _homeBloc.add(ChangeSectionEvent(
+                            sectionActive: SectionActive.OVERVIEW
+                        ));
+                      }
                     }
                   ),
                   _bottomMenuItem(
                     icon: Icons.folder,
-                    iconColor: Colors.grey[500],
+                    iconColor: _homeBloc.sectionActive == SectionActive.PRIVATE
+                        ? AppColors.primaryColor
+                        : Colors.grey[500],
                     onPressed: () {
-                      _homeBloc.add(ChangeSectionEvent(
-                          sectionActive: SectionActive.PRIVATE
-                      ));
+                      if (_homeBloc.sectionActive != SectionActive.PRIVATE) {
+                        _homeBloc.add(ChangeSectionEvent(
+                            sectionActive: SectionActive.PRIVATE
+                        ));
+                      }
                     }
                   ),
                   _bottomMenuItem(
                     icon: Icons.playlist_add_check,
-                    iconColor: Colors.grey[500],
+                    iconColor: _homeBloc.sectionActive == SectionActive.CLASSES
+                        ? AppColors.primaryColor
+                        : Colors.grey[500],
                     onPressed: () {
-                      _homeBloc.add(ChangeSectionEvent(
-                        sectionActive: SectionActive.CLASSES
-                      ));
+                      if (_homeBloc.sectionActive != SectionActive.CLASSES) {
+                        _homeBloc.add(ChangeSectionEvent(
+                            sectionActive: SectionActive.CLASSES
+                        ));
+                      }
                     }
                   ),
                   _bottomMenuItem(
                     icon: Icons.person,
-                    iconColor: Colors.grey[500],
+                    iconColor: _homeBloc.sectionActive == SectionActive.PROFILE
+                        ? AppColors.primaryColor
+                        : Colors.grey[500],
                     onPressed: () {
-                      _homeBloc.add(ChangeSectionEvent(
-                          sectionActive: SectionActive.PROFILE
-                      ));
+                      if (_homeBloc.sectionActive != SectionActive.PROFILE) {
+                        _homeBloc.add(ChangeSectionEvent(
+                            sectionActive: SectionActive.PROFILE
+                        ));
+                      }
                     }
                   )
                 ]
