@@ -52,3 +52,12 @@ class CreateNewClassEvent extends ClassesEvent {
   @override
   String toString() => 'CreateNewClassEvent';
 }
+
+class TypeClassNameEvent extends ClassesEvent {
+  final String className;
+
+  TypeClassNameEvent({this.className});
+
+  @override
+  String toString() => 'TypeClassNameEvent';
+}

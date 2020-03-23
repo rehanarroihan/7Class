@@ -11,15 +11,17 @@ import './bloc.dart';
 class ClassesBloc extends Bloc<ClassesEvent, ClassesState> {
   ClassesServices _classesServices = ClassesServices();
 
+  bool isGetMyClassLoading = false;
+  List<Classes> classList = List<Classes>();
+
   PermissionHandlerService _permissionHandlerService = PermissionHandlerService();
   bool isCameraPermissionGranted = false;
+
   bool isClassCodeValid = false;
-
-  bool isGetMyClassLoading = false;
   bool isEnrollLoading = false;
-  bool isCreateClassLoading = false;
 
-  List<Classes> classList = List<Classes>();
+  String writtenClassName = "";
+  bool isCreateClassLoading = false;
 
   @override
   ClassesState get initialState => InitialClassesState();
@@ -38,6 +40,9 @@ class ClassesBloc extends Bloc<ClassesEvent, ClassesState> {
       yield* _getMyClass();
     } else if (event is CreateNewClassEvent) {
       yield* _createNewClass(event);
+    } else if (event is TypeClassNameEvent) {
+      this.writtenClassName = event.className;
+      yield InitialClassesState();
     }
   }
 

@@ -2,29 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sevenclass/bloc/classes/bloc.dart';
-import 'package:sevenclass/bloc/classes/classes_bloc.dart';
 import 'package:sevenclass/helpers/app_color.dart';
 import 'package:sevenclass/helpers/constant_helper.dart';
 import 'package:sevenclass/models/my_classes_model.dart';
 import 'package:sevenclass/screens/join_class_screen.dart';
 import 'package:sevenclass/widgets/base/app_alert_dialog.dart';
-import 'package:sevenclass/widgets/base/button.dart';
 import 'package:sevenclass/widgets/base/toast.dart';
+import 'package:sevenclass/widgets/modules/classes/new_class_form.dart';
 
 class ClassListScreen extends StatelessWidget {
   ClassesBloc _classesBloc;
   BuildContext context;
-
-  GlobalKey<FormState> _newClassForm = GlobalKey();
-  TextEditingController _classNameTEC = TextEditingController();
-  TextEditingController _classDescTEC = TextEditingController();
-
-  _createNewClass() {
-    _classesBloc.add(CreateNewClassEvent(
-      className: _classNameTEC.text,
-      classDescription: _classDescTEC.text
-    ));
-  }
 
   _showDeleteAlert() {
     AppAlertDialog(
@@ -121,6 +109,7 @@ class ClassListScreen extends StatelessWidget {
   }
 
   _showCreateNewClassDialog() {
+    _classesBloc.add(TypeClassNameEvent(className: ''));
     showModalBottomSheet(
       context: this.context,
       isScrollControlled: true,
@@ -175,85 +164,12 @@ class ClassListScreen extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 12),
-                _createClassForm()
+                NewClassForm()
               ],
             ),
           ),
         );
       }
-    );
-  }
-
-  Widget _createClassForm() {
-    return Column(
-      children: <Widget>[
-        Form(
-          key: _newClassForm,
-          child: Column(
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.lightBlue[100],
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
-                ),
-                height: 80,
-                width: 80,
-                child: Text(
-                  _classNameTEC.text,
-                  style: TextStyle(
-                    fontFamily: ConstantHelper.PRIMARY_FONT,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-              SizedBox(height: 12),
-              TextFormField(
-                controller: _classNameTEC,
-                decoration: InputDecoration(
-                  labelText: "Nama Kelas",
-                  fillColor: Colors.grey[100],
-                  filled: true,
-                  prefixIcon: Icon(Icons.short_text, color: Colors.black54),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4.0),
-                    borderSide: BorderSide(width: 0.8),
-                  ),
-                ),
-                onChanged: (value) {
-
-                }
-              ),
-              SizedBox(height: 12),
-              TextFormField(
-                controller: _classDescTEC,
-                decoration: InputDecoration(
-                  labelText: "Deskripsi Kelas",
-                  fillColor: Colors.grey[100],
-                  filled: true,
-                  prefixIcon: Icon(Icons.textsms, color: Colors.black54),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4.0),
-                    borderSide: BorderSide(width: 0.8),
-                  ),
-                ),
-                onChanged: (value) {
-
-                }
-              ),
-            ],
-          ),
-        ),
-        SizedBox(height: 16),
-        Container(
-          width: double.infinity,
-          child: Button(
-            style: ButtonStyle.PRIMARY,
-            text: _classesBloc.isCreateClassLoading ? 'Please wait...' : 'Buat Kelas Baru',
-            onTap: !_classesBloc.isCreateClassLoading ? () => _createNewClass() : null,
-          ),
-        )
-      ],
     );
   }
 
@@ -340,52 +256,56 @@ class ClassListScreen extends StatelessWidget {
                 ),
                 Expanded(
                   flex: 1,
-                  child: Column(
-                    children: <Widget>[
-                      PopupMenuButton<Choice>(
-                        onSelected: (item) {
-                          if (item.title == "Leave Class") {
-                            _showLeaveAlert();
-                          } else if (item.title == "Delete Class") {
-                            _showDeleteAlert();
-                          }
-                        },
-                        itemBuilder: (BuildContext context) {
-                          return choices.map((Choice choice) {
-                            return PopupMenuItem<Choice>(
-                              value: choice,
-                              child: Row(
-                                children: <Widget>[
-                                  Icon(
-                                    choice.icon,
-                                    size: 20,
-                                    color: choice.title == "Delete Class"
-                                      ? Colors.red
-                                      : Colors.black,
-                                  ),
-                                  SizedBox(width: 8),
-                                  Text(
-                                    choice.title,
-                                    style: TextStyle(
-                                      color: choice.title == "Delete Class"
-                                        ? Colors.red
-                                        : Colors.black,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            );
-                          }).toList();
-                        },
-                      ),
-                    ],
-                  ),
+                  child: _popUpMenu(),
                 )
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _popUpMenu() {
+    return Column(
+      children: <Widget>[
+        PopupMenuButton<Choice>(
+          onSelected: (item) {
+            if (item.title == "Leave Class") {
+              _showLeaveAlert();
+            } else if (item.title == "Delete Class") {
+              _showDeleteAlert();
+            }
+          },
+          itemBuilder: (BuildContext context) {
+            return choices.map((Choice choice) {
+              return PopupMenuItem<Choice>(
+                value: choice,
+                child: Row(
+                  children: <Widget>[
+                    Icon(
+                      choice.icon,
+                      size: 20,
+                      color: choice.title == "Delete Class"
+                          ? Colors.red
+                          : Colors.black,
+                    ),
+                    SizedBox(width: 8),
+                    Text(
+                      choice.title,
+                      style: TextStyle(
+                        color: choice.title == "Delete Class"
+                            ? Colors.red
+                            : Colors.black,
+                      ),
+                    )
+                  ],
+                ),
+              );
+            }).toList();
+          },
+        ),
+      ],
     );
   }
 
@@ -401,4 +321,3 @@ class Choice {
   final String title;
   final IconData icon;
 }
-
