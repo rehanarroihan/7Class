@@ -5,6 +5,7 @@ import 'package:qr_code_scanner/qr_scanner_overlay_shape.dart';
 import 'package:sevenclass/bloc/classes/bloc.dart';
 import 'package:sevenclass/helpers/app_color.dart';
 import 'package:sevenclass/helpers/constant_helper.dart';
+import 'package:sevenclass/widgets/base/app_alert_dialog.dart';
 import 'package:sevenclass/widgets/base/button.dart';
 import 'package:sevenclass/widgets/base/finger_tip.dart';
 import 'package:sevenclass/widgets/base/sliding_panel.dart';
@@ -43,40 +44,6 @@ class _JoinClassScreenState extends State<JoinClassScreen> {
     ));
   }
 
-  Future<void> _alreadyJoined(BuildContext context) async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Hi'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('You have joined this class'),
-                Text('You\’re like me. I’m never satisfied.'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            FlatButton(
-              child: Text('Go to class'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     _screenHeight = MediaQuery.of(context).size.height;
@@ -87,9 +54,19 @@ class _JoinClassScreenState extends State<JoinClassScreen> {
       bloc: _classesBloc,
       listener: (context, state) {
         if (state is EnrollClassJoinedState) {
-          _alreadyJoined(context);
+          AppAlertDialog(
+            title: 'Already Joined',
+            message: 'You have joined this class',
+            rightButtonText: 'Oh, oke',
+            onRightButtonClick: () => Navigator.of(context).pop(),
+          ).show(context);
         } else if (state is EnrollClassNotFoundState) {
-          _alreadyJoined(context);
+          AppAlertDialog(
+            title: 'Alert',
+            message: 'Class not found',
+            rightButtonText: 'Try Again',
+            onRightButtonClick: () => Navigator.of(context).pop(),
+          ).show(context);
         }
       },
       child: BlocBuilder(

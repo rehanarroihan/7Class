@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sevenclass/bloc/classes/bloc.dart';
@@ -6,6 +7,7 @@ import 'package:sevenclass/helpers/app_color.dart';
 import 'package:sevenclass/helpers/constant_helper.dart';
 import 'package:sevenclass/models/my_classes_model.dart';
 import 'package:sevenclass/screens/join_class_screen.dart';
+import 'package:sevenclass/widgets/base/app_alert_dialog.dart';
 import 'package:sevenclass/widgets/base/button.dart';
 import 'package:sevenclass/widgets/base/toast.dart';
 
@@ -22,6 +24,30 @@ class ClassListScreen extends StatelessWidget {
       className: _classNameTEC.text,
       classDescription: _classDescTEC.text
     ));
+  }
+
+  _showDeleteAlert() {
+    AppAlertDialog(
+      title: 'Delete',
+      message: 'Are you sure want to delete the class ? all content inside will be deleted',
+      leftButtonText: 'Cancel',
+      onLeftButtonClick: () => Navigator.of(context).pop(),
+      rightButtonText: 'Yes, delete',
+      rightButtonColor: Colors.red,
+      onRightButtonClick: () {},
+    ).show(context);
+  }
+
+  _showLeaveAlert() {
+    AppAlertDialog(
+      title: 'Leave',
+      message: 'Are you sure want to leave the class ?',
+      leftButtonText: 'Cancel',
+      onLeftButtonClick: () => Navigator.of(context).pop(),
+      rightButtonText: 'Yes, leave',
+      rightButtonColor: Colors.red,
+      onRightButtonClick: () {},
+    ).show(context);
   }
 
   @override
@@ -280,27 +306,81 @@ class ClassListScreen extends StatelessWidget {
           onTap: () {},
           borderRadius: BorderRadius.circular(4),
           child: Padding(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            padding: EdgeInsets.only(
+              top: 16,
+              left: 16,
+              bottom: 16
+            ),
+            child: Row(
               children: <Widget>[
-                Text(
-                  item.name,
-                  style: TextStyle(
-                    fontFamily: ConstantHelper.PRIMARY_FONT,
-                    fontSize: 16,
-                    color: Colors.black87,
-                    fontWeight: FontWeight.w600
+                Expanded(
+                  flex: 4,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        item.name,
+                        style: TextStyle(
+                            fontFamily: ConstantHelper.PRIMARY_FONT,
+                            fontSize: 16,
+                            color: Colors.black87,
+                            fontWeight: FontWeight.w600
+                        ),
+                      ),
+                      Text(
+                        item.description,
+                        style: TextStyle(
+                          fontFamily: ConstantHelper.PRIMARY_FONT,
+                          fontSize: 16,
+                          color: Colors.black87,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Text(
-                  item.description,
-                  style: TextStyle(
-                    fontFamily: ConstantHelper.PRIMARY_FONT,
-                    fontSize: 16,
-                    color: Colors.black87,
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    children: <Widget>[
+                      PopupMenuButton<Choice>(
+                        onSelected: (item) {
+                          if (item.title == "Leave Class") {
+                            _showLeaveAlert();
+                          } else if (item.title == "Delete Class") {
+                            _showDeleteAlert();
+                          }
+                        },
+                        itemBuilder: (BuildContext context) {
+                          return choices.map((Choice choice) {
+                            return PopupMenuItem<Choice>(
+                              value: choice,
+                              child: Row(
+                                children: <Widget>[
+                                  Icon(
+                                    choice.icon,
+                                    size: 20,
+                                    color: choice.title == "Delete Class"
+                                      ? Colors.red
+                                      : Colors.black,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    choice.title,
+                                    style: TextStyle(
+                                      color: choice.title == "Delete Class"
+                                        ? Colors.red
+                                        : Colors.black,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          }).toList();
+                        },
+                      ),
+                    ],
                   ),
-                ),
+                )
               ],
             ),
           ),
@@ -308,4 +388,17 @@ class ClassListScreen extends StatelessWidget {
       ),
     );
   }
+
+  List<Choice> choices = const <Choice>[
+    const Choice(title: 'Leave Class', icon: Icons.exit_to_app),
+    const Choice(title: 'Delete Class', icon: Icons.delete)
+  ];
 }
+
+class Choice {
+  const Choice({this.title, this.icon});
+
+  final String title;
+  final IconData icon;
+}
+

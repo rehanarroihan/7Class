@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sevenclass/bloc/auth/bloc.dart';
 import 'package:sevenclass/helpers/app_color.dart';
 import 'package:sevenclass/helpers/constant_helper.dart';
+import 'package:sevenclass/widgets/base/app_alert_dialog.dart';
 import 'package:sevenclass/widgets/base/button.dart';
 import 'package:sevenclass/widgets/base/toast.dart';
 
@@ -54,7 +55,12 @@ class _RegisterModuleState extends State<RegisterModule> {
       bloc: _authBloc,
       listener: (context, state) {
         if (state is RegisterResultState) {
-          _neverSatisfied(context);
+          AppAlertDialog(
+            title: 'Register',
+            message: 'Registration successful',
+            rightButtonText: 'Login',
+            onRightButtonClick: () => Navigator.of(context).pop(),
+          ).show(context);
         } else if (state is RegisterFailedState) {
           showToast(state.message);
         }
@@ -211,33 +217,5 @@ class _RegisterModuleState extends State<RegisterModule> {
       return "Email already registered";
     else
       return null;
-  }
-
-  Future<void> _neverSatisfied(BuildContext context) async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Rewind and remember'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('You will never be satisfied.'),
-                Text('You\’re like me. I’m never satisfied.'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('Regret'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 }
