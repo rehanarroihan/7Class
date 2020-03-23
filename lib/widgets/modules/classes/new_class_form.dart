@@ -3,15 +3,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sevenclass/bloc/classes/bloc.dart';
 import 'package:sevenclass/helpers/app_color.dart';
 import 'package:sevenclass/helpers/constant_helper.dart';
+import 'package:sevenclass/helpers/initial_text_helper.dart';
 import 'package:sevenclass/widgets/base/button.dart';
 
-class NewClassForm extends StatelessWidget {
+class NewClassForm extends StatefulWidget {
+  @override
+  _NewClassFormState createState() => _NewClassFormState();
+}
+
+class _NewClassFormState extends State<NewClassForm> {
   ClassesBloc _classesBloc;
   BuildContext context;
 
   GlobalKey<FormState> _newClassForm = GlobalKey();
   TextEditingController _classNameTEC = TextEditingController();
   TextEditingController _classDescTEC = TextEditingController();
+
+  InitialTextHelper initialTextHelper = InitialTextHelper();
+  String classNameInitial = '';
 
   _createNewClass() {
     _classesBloc.add(CreateNewClassEvent(
@@ -39,27 +48,32 @@ class NewClassForm extends StatelessWidget {
                 ),
                 height: 80,
                 width: 80,
-                child: _classesBloc.writtenClassName == ''
-                    ? Icon(Icons.table_chart, color: AppColors.primaryColor)
+                child: classNameInitial == ''
+                    ? Icon(
+                        Icons.table_chart,
+                        size: 52,
+                        color: AppColors.primaryColor
+                      )
                     : Center(
-                  child: Text(
-                    _classNameTEC.text.toUpperCase(),
-                    style: TextStyle(
-                      fontFamily: ConstantHelper.PRIMARY_FONT,
-                      fontWeight: FontWeight.w600,
-                      fontSize: _classesBloc.writtenClassName.length == 1
-                          ? 40
-                          : _classesBloc.writtenClassName.length == 2
-                          ? 28
-                          : _classesBloc.writtenClassName.length == 3
-                          ? 24 : 2,
-                    ),
-                  ),
-                ),
+                        child: Text(
+                          classNameInitial.toString(),
+                          style: TextStyle(
+                            fontFamily: ConstantHelper.PRIMARY_FONT,
+                            fontWeight: FontWeight.w600,
+                            fontSize: classNameInitial.length == 1
+                                ? 40
+                                : classNameInitial.length == 2
+                                ? 28
+                                : classNameInitial.length == 3
+                                ? 24 : 2,
+                          ),
+                        ),
+                      ),
               ),
               SizedBox(height: 14),
               TextFormField(
                   controller: _classNameTEC,
+                  textCapitalization: TextCapitalization.words,
                   decoration: InputDecoration(
                     labelText: "Nama Kelas",
                     fillColor: Colors.grey[100],
@@ -71,9 +85,9 @@ class NewClassForm extends StatelessWidget {
                     ),
                   ),
                   onChanged: (value) {
-                    _classesBloc.add(TypeClassNameEvent(
-                        className: value
-                    ));
+                    setState(() {
+                      classNameInitial = initialTextHelper.generateInitialText(value);
+                    });
                   }
               ),
               SizedBox(height: 12),

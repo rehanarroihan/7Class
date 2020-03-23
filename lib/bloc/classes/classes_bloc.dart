@@ -20,7 +20,6 @@ class ClassesBloc extends Bloc<ClassesEvent, ClassesState> {
   bool isClassCodeValid = false;
   bool isEnrollLoading = false;
 
-  String writtenClassName = "";
   bool isCreateClassLoading = false;
 
   @override
@@ -40,9 +39,6 @@ class ClassesBloc extends Bloc<ClassesEvent, ClassesState> {
       yield* _getMyClass();
     } else if (event is CreateNewClassEvent) {
       yield* _createNewClass(event);
-    } else if (event is TypeClassNameEvent) {
-      this.writtenClassName = event.className;
-      yield InitialClassesState();
     }
   }
 

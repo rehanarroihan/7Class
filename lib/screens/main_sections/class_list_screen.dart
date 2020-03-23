@@ -109,7 +109,6 @@ class ClassListScreen extends StatelessWidget {
   }
 
   _showCreateNewClassDialog() {
-    _classesBloc.add(TypeClassNameEvent(className: ''));
     showModalBottomSheet(
       context: this.context,
       isScrollControlled: true,
