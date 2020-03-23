@@ -33,4 +33,13 @@ class ClassesServices {
       return DefaultModel(success: false);
     }
   }
+
+  Future<DefaultModel> deleteClass(String classId) async {
+    try {
+      Response response = await dio.delete('class/' + classId);
+      return DefaultModel.fromJson(response.data);
+    } catch(e) {
+      return DefaultModel(success: false);
+    }
+  }
 }

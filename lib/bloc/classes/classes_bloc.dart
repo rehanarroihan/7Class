@@ -39,6 +39,8 @@ class ClassesBloc extends Bloc<ClassesEvent, ClassesState> {
       yield* _getMyClass();
     } else if (event is CreateNewClassEvent) {
       yield* _createNewClass(event);
+    } else if (event is DeleteClassEvent) {
+      yield* _deleteClass(event);
     }
   }
 
@@ -113,6 +115,17 @@ class ClassesBloc extends Bloc<ClassesEvent, ClassesState> {
       yield CreateNewClassFailedState();
     } else {
       yield CreateNewClassSuccessState();
+    }
+  }
+
+  Stream<ClassesState> _deleteClass(DeleteClassEvent event) async* {
+    DefaultModel response = await _classesServices.deleteClass(event.idClass);
+    if (!response.success) {
+      yield DeleteClassFailedState(
+        message: response.message
+      );
+    } else {
+      yield DeleteClassSuccessState();
     }
   }
 }

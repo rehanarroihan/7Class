@@ -15,7 +15,7 @@ class _NewClassFormState extends State<NewClassForm> {
   ClassesBloc _classesBloc;
   BuildContext context;
 
-  GlobalKey<FormState> _newClassForm = GlobalKey();
+  GlobalKey<FormState> _newClassForm =  GlobalKey();
   TextEditingController _classNameTEC = TextEditingController();
   TextEditingController _classDescTEC = TextEditingController();
 

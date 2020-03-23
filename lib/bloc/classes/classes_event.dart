@@ -52,3 +52,12 @@ class CreateNewClassEvent extends ClassesEvent {
   @override
   String toString() => 'CreateNewClassEvent';
 }
+
+class DeleteClassEvent extends ClassesEvent {
+  final String idClass;
+
+  DeleteClassEvent({this.idClass});
+
+  @override
+  String toString() => 'DeleteClassEvent';
+}

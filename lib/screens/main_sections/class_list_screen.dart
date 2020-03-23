@@ -14,7 +14,7 @@ class ClassListScreen extends StatelessWidget {
   ClassesBloc _classesBloc;
   BuildContext context;
 
-  _showDeleteAlert() {
+  _showDeleteAlert(String idClass) {
     AppAlertDialog(
       title: 'Delete',
       message: 'Are you sure want to delete the class ? all content inside will be deleted',
@@ -22,7 +22,10 @@ class ClassListScreen extends StatelessWidget {
       onLeftButtonClick: () => Navigator.of(context).pop(),
       rightButtonText: 'Yes, delete',
       rightButtonColor: Colors.red,
-      onRightButtonClick: () {},
+      onRightButtonClick: () {
+        _classesBloc.add(DeleteClassEvent(idClass: idClass));
+        Navigator.pop(context);
+      },
     ).show(context);
   }
 
@@ -52,6 +55,11 @@ class ClassListScreen extends StatelessWidget {
           _classesBloc.add(GetMyClassEvent());
           showToast("Class created successfully");
           Navigator.pop(context);
+        } else if (state is DeleteClassFailedState) {
+          showToast(state.message);
+        } else if (state is DeleteClassSuccessState) {
+          showToast("Delete class success");
+          _classesBloc.add(GetMyClassEvent());
         }
       },
       child: BlocBuilder(
@@ -255,7 +263,7 @@ class ClassListScreen extends StatelessWidget {
                 ),
                 Expanded(
                   flex: 1,
-                  child: _popUpMenu(),
+                  child: _popUpMenu(item),
                 )
               ],
             ),
@@ -265,7 +273,7 @@ class ClassListScreen extends StatelessWidget {
     );
   }
 
-  Widget _popUpMenu() {
+  Widget _popUpMenu(Classes classes) {
     return Column(
       children: <Widget>[
         PopupMenuButton<Choice>(
@@ -273,7 +281,7 @@ class ClassListScreen extends StatelessWidget {
             if (item.title == "Leave Class") {
               _showLeaveAlert();
             } else if (item.title == "Delete Class") {
-              _showDeleteAlert();
+              _showDeleteAlert(classes.id.toString());
             }
           },
           itemBuilder: (BuildContext context) {

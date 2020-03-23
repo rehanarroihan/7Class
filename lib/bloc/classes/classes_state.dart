@@ -32,3 +32,11 @@ class GetClassFailedState extends ClassesState {}
 class CreateNewClassSuccessState extends ClassesState {}
 
 class CreateNewClassFailedState extends ClassesState {}
+
+class DeleteClassSuccessState extends ClassesState {}
+
+class DeleteClassFailedState extends ClassesState {
+  final String message;
+
+  DeleteClassFailedState({this.message});
+}
