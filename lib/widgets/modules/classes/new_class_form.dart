@@ -59,7 +59,7 @@ class _NewClassFormState extends State<NewClassForm> {
                           classNameInitial.toString(),
                           style: TextStyle(
                             fontFamily: ConstantHelper.PRIMARY_FONT,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w700,
                             fontSize: classNameInitial.length == 1
                                 ? 40
                                 : classNameInitial.length == 2
@@ -85,9 +85,12 @@ class _NewClassFormState extends State<NewClassForm> {
                     ),
                   ),
                   onChanged: (value) {
-                    setState(() {
-                      classNameInitial = initialTextHelper.generateInitialText(value);
-                    });
+                    String initial = initialTextHelper.generateInitialText(value);
+                    if (initial.length < 4) {
+                      setState(() {
+                        classNameInitial = initialTextHelper.generateInitialText(value);
+                      });
+                    }
                   }
               ),
               SizedBox(height: 12),

@@ -12,6 +12,6 @@ class ConstantHelper {
   static const String USER_PHONE_PREF = 'USER_PHONE_PREF';
 
   // Other
-  static const String PRIMARY_FONT = 'Gilroy';
+  static const String PRIMARY_FONT = 'Lato';
   static const String SECONDARY_FONT = 'OpenSans';
 }

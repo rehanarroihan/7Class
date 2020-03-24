@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sevenclass/bloc/auth/bloc.dart';
 import 'package:sevenclass/helpers/app_color.dart';
 import 'package:sevenclass/helpers/constant_helper.dart';
+import 'package:sevenclass/widgets/base/app_alert_dialog.dart';
 import 'package:sevenclass/widgets/base/button.dart';
 
 import '../../app.dart';
@@ -162,7 +163,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '#BelajarDariManaSaja',
+                      '#BelajarDariManaAja',
                       style: TextStyle(
                         fontFamily: ConstantHelper.PRIMARY_FONT,
                         fontWeight: FontWeight.bold,
@@ -180,7 +181,15 @@ class ProfileScreen extends StatelessWidget {
                   style: ButtonStyle.PRIMARY,
                   text: 'Logout',
                   isRounded: true,
-                  onTap: () => _authBloc.add(LogoutEvent()),
+                  onTap: () => AppAlertDialog(
+                    title: 'Logout',
+                    message: 'Are you sure want to logout ?',
+                    leftButtonText: 'Cancel',
+                    onLeftButtonClick: () => Navigator.pop(context),
+                    rightButtonText: 'Logout',
+                    rightButtonColor: Colors.red,
+                    onRightButtonClick: () => _authBloc.add(LogoutEvent()),
+                  ).show(context),
                 ),
               ),
               SizedBox(height: 18),
