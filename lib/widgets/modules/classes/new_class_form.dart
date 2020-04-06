@@ -59,7 +59,7 @@ class _NewClassFormState extends State<NewClassForm> {
                           classNameInitial.toString(),
                           style: TextStyle(
                             fontFamily: ConstantHelper.PRIMARY_FONT,
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w600,
                             fontSize: classNameInitial.length == 1
                                 ? 40
                                 : classNameInitial.length == 2

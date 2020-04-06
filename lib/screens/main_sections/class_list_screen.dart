@@ -5,6 +5,7 @@ import 'package:sevenclass/bloc/classes/bloc.dart';
 import 'package:sevenclass/helpers/app_color.dart';
 import 'package:sevenclass/helpers/constant_helper.dart';
 import 'package:sevenclass/models/my_classes_model.dart';
+import 'package:sevenclass/screens/classroom/main_screen.dart';
 import 'package:sevenclass/screens/join_class_screen.dart';
 import 'package:sevenclass/widgets/base/app_alert_dialog.dart';
 import 'package:sevenclass/widgets/base/toast.dart';
@@ -92,6 +93,7 @@ class ClassListScreen extends StatelessWidget {
 
   Widget _body() {
     return SingleChildScrollView(
+      physics: ScrollPhysics(),
       child: Column(
         children: <Widget>[
           _classList(),
@@ -184,6 +186,8 @@ class ClassListScreen extends StatelessWidget {
     return ListView.builder(
       itemCount: _classesBloc.classList.length,
       shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      scrollDirection:  Axis.vertical,
       padding: EdgeInsets.only(
         top: 16,
         left: 16,
@@ -226,7 +230,11 @@ class ClassListScreen extends StatelessWidget {
         color: AppColors.white,
         borderRadius: BorderRadius.circular(4),
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(context,
+              MaterialPageRoute(builder: (context) => MainScreen())
+            );
+          },
           borderRadius: BorderRadius.circular(4),
           child: Padding(
             padding: EdgeInsets.only(
